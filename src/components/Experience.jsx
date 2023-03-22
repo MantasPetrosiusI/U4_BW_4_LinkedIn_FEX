@@ -40,7 +40,6 @@ const Experience = () => {
   const userExperiencesAPIRS = useSelector(
     (state) => state.getExperience.content
   );
-  console.log(userExperiencesAPIRS);
 
   useEffect(() => {
     dispatch(getExperienceAction(userProfileAPIRS._id));
@@ -64,16 +63,13 @@ const Experience = () => {
     inputRef.current.click();
   };
 
-  function handleUpload(expId) {
-    const baseURL = `https://striveschool-api.herokuapp.com/api/profile/${userProfileAPIRS._id}/experiences/${expId}/picture`;
+  function handleUpload(userId, expId) {
+    const baseURL = process.env.REACT_APP_BE_URL + `/users/${userId}/experiences/${expId}/image`;
     const formData = new FormData();
-    formData.append("experience", file);
+    formData.append("expImg", file);
     fetch(baseURL, {
       method: "POST",
       body: formData,
-      headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-      },
     })
       .then((response) => response.json())
       .then((result) => {
@@ -106,11 +102,11 @@ const Experience = () => {
         </div>
       </Col>
       <Row className="d-flex justify-content-between mb-2 pr-0">
-        {userExperiencesAPIRS &&
-          userExperiencesAPIRS.map((data) => (
+        {userProfileAPIRS &&
+          userProfileAPIRS.experience.map((data) => (
             <Row key={data._id} className="mb-3 pr-0">
               <Col lg={2} className="">
-                <img id="experience-image" src={data.image} alt="" />
+                <img id="experience-image" src={data.imageUrl} alt="" />
               </Col>
               <Col lg={10} className="pl-4 pr-0 d-flex justify-content-between">
                 <div className="d-flex flex-column">
@@ -146,7 +142,7 @@ const Experience = () => {
                       <FiSend
                         id="analytics-icons"
                         onClick={() => {
-                          handleUpload(data._id);
+                          handleUpload(userProfileAPIRS._id, data._id);
                           handleShowSuccessful();
                         }}
                       ></FiSend>
@@ -272,8 +268,8 @@ const Experience = () => {
             onClick={() => {
               dispatch(
                 postUserExperience(
-                  userExperiencesAPIRS._id,
                   userProfileAPIRS._id,
+                  userExperiencesAPIRS._id,
                   file
                 )
               );
