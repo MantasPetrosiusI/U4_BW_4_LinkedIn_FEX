@@ -22,6 +22,7 @@ const ExperiencePage = () => {
   const singleExpData = useSelector((state) => state.experienceWithId.content);
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
   console.log(singleExpData)
+  console.log(userProfileAPIRS)
 
   useEffect(() => {
     dispatch(getExperienceWithExpIdAction(userProfileAPIRS._id, params.id));
