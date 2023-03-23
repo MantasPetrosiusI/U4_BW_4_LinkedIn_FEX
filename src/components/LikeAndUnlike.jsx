@@ -5,13 +5,14 @@ import { RxLoop } from "react-icons/rx";
 import { IoIosSend } from "react-icons/io";
 import { AiTwotoneLike } from "react-icons/ai";
 import { likeAction, unlikeAction } from "../redux/actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
+import { deletePostAction, getPostAction, sendPostAsyncAction, } from "../redux/actions";
 
 const LikeAndUnlike = (props) => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
-  console.log(userProfileAPIRS._id)
-  const [isLike, setLike] = useState(false);
+  const [likeProp, setLikeProp] = useState();
+  const [likes, setLikes] = useState(false);
 
   const toggleLikes = async (postID, userID) => {
     const likeBody = {
@@ -25,24 +26,24 @@ const LikeAndUnlike = (props) => {
           "Content-Type": "application/json",
         }),
       })
-      console.log(await res.json())
+      let data = await res.json()
+      setLikeProp(data)
+      dispatch(getPostAction());
     } catch (error) {
       console.log(error)
     }
-
   }
-  console.log(props.singlePost)
+  const dispatch = useDispatch();
 
   return (
     <div className="card-footer p-0">
       <Row className="justify-content-center align-items-center">
         <Col className="text-center comment-box pt-2">
-          {isLike ? (
+          {props.singlePost.likes.some(e => e._id === userProfileAPIRS._id) ? (
             <button
               className="comment-box-btn ml-3"
               onClick={() => {
                 toggleLikes(props.singlePost._id, userProfileAPIRS._id);
-                setLike(false)
               }}
             >
               <AiTwotoneLike className="comment-box-btn-icon  mr-1" />
@@ -53,7 +54,6 @@ const LikeAndUnlike = (props) => {
               className="comment-box-btn ml-3"
               onClick={() => {
                 toggleLikes(props.singlePost._id, userProfileAPIRS._id);
-                setLike(true)
               }}
             >
               <AiOutlineLike className="comment-box-btn-icon  mr-1" />
