@@ -371,9 +371,13 @@ export const putUserExperience = (userId, expId) => {
     user: userId,
     role: roleInput.value ? roleInput.value : roleInput.placeholder,
     company: companyInput.value ? companyInput.value : companyInput.placeholder,
-    startDate: startdateInput.value ? startdateInput.value : startdateInput.placeholder,
+    startDate: startdateInput.value
+      ? startdateInput.value
+      : startdateInput.placeholder,
     endDate: enddateInput.value ? enddateInput.value : enddateInput.placeholder,
-    description: descriptionInput.value ? descriptionInput.value : descriptionInput.placeholder,
+    description: descriptionInput.value
+      ? descriptionInput.value
+      : descriptionInput.placeholder,
     area: areaInput.value ? areaInput.value : areaInput.placeholder,
   };
   return async (dispatch, getState) => {
@@ -517,7 +521,7 @@ export const postExpImageAction = (userId, experienceId) => {
     try {
       let res = fetch(
         process.env.REACT_APP_BE_URL +
-        `/users/${userId}/experiences/${experienceId}/image`,
+          `/users/${userId}/experiences/${experienceId}/image`,
         {
           method: "POST",
           body: JSON.stringify(expImage),
@@ -590,5 +594,48 @@ export function handleUploadAction(postID, file) {
 export const toggleShow = () => {
   return {
     type: TOGGLE_SHOW,
+  };
+};
+
+export const sendPostCommentAsyncAction = (editedData, postID) => {
+  return async (dispatch) => {
+    try {
+      let res = await fetch(
+        process.env.REACT_APP_BE_URL + `/posts/${postID}/comments`,
+        {
+          method: "POST",
+          body: JSON.stringify(editedData),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (res.ok) {
+        const data = await res.json();
+        console.log(data);
+        dispatch(getPostAction());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deletePostCommentAction = (postID, commentID) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        process.env.REACT_APP_BE_URL + `/posts/${postID}/comments/${commentID}`,
+        {
+          method: "DELETE",
+          headers: {},
+        }
+      );
+      if (response.ok) {
+        dispatch(getPostAction());
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 };

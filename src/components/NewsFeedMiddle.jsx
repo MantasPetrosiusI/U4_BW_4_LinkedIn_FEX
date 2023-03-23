@@ -17,6 +17,8 @@ import {
   deletePostAction,
   getPostAction,
   sendPostAsyncAction,
+  sendPostCommentAsyncAction,
+  deletePostCommentAction,
 } from "../redux/actions";
 import format from "date-fns/format";
 import { parseISO } from "date-fns";
@@ -27,7 +29,6 @@ import { AiOutlineSmile } from "react-icons/ai";
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BsThreeDots } from "react-icons/bs";
-import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 const NewsFeedMiddle = () => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
@@ -348,7 +349,12 @@ const NewsFeedMiddle = () => {
                           <FormControl
                             placeholder="Add a comment..."
                             aria-label="Add a comment..."
+                            value={post.comment}
                             aria-describedby="basic-addon2"
+                            onClick={sendPostCommentAsyncAction(
+                              post.comment,
+                              post._id
+                            )}
                           />
                           <InputGroup.Append>
                             <Button variant="outline-secondary">
@@ -394,7 +400,9 @@ const NewsFeedMiddle = () => {
                                               Copy link to comment
                                             </Dropdown.Item>
                                             <Dropdown.Item>Edit</Dropdown.Item>
-                                            <Dropdown.Item>
+                                            <Dropdown.Item
+                                              onClick={deletePostCommentAction}
+                                            >
                                               <RiDeleteBin6Line /> Delete
                                             </Dropdown.Item>
                                           </DropdownButton>
