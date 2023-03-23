@@ -27,7 +27,7 @@ export const TOGGLE_SHOW = "TOGGLE_SHOW";
 export const getUserProfileApi = () => {
   return async (dispatch, getState) => {
     const baseEndpoint =
-      process.env.REACT_APP_BE_URL + `/users/641844deefc7760838a46517`;
+      process.env.REACT_APP_BE_URL + `/users/6418663bed18214ac7e041e4`;
     try {
       let resp = await fetch(baseEndpoint);
       if (resp.ok) {
@@ -97,7 +97,7 @@ export const putUserProfileApi = () => {
 
   return async (dispatch, getState) => {
     const baseEndpoint =
-      process.env.REACT_APP_BE_URL + `/users/641844deefc7760838a46517`;
+      process.env.REACT_APP_BE_URL + `/users/6418663bed18214ac7e041e4`;
 
     try {
       let resp = await fetch(baseEndpoint, optionsPUT);
@@ -522,7 +522,7 @@ export const postExpImageAction = (userId, experienceId) => {
     try {
       let res = fetch(
         process.env.REACT_APP_BE_URL +
-          `/users/${userId}/experiences/${experienceId}/image`,
+        `/users/${userId}/experiences/${experienceId}/image`,
         {
           method: "POST",
           body: JSON.stringify(expImage),
