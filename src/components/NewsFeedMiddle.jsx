@@ -1,12 +1,29 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Card, Form, Modal, Row, Col, Alert } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Form,
+  Modal,
+  Row,
+  Col,
+  Alert,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
-import { deletePostAction, getPostAction, sendPostAsyncAction, } from "../redux/actions";
+import {
+  deletePostAction,
+  getPostAction,
+  sendPostAsyncAction,
+} from "../redux/actions";
 import format from "date-fns/format";
 import { parseISO } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { BsUpload } from "react-icons/bs";
 import LikeAndUnlike from "./LikeAndUnlike";
+import { AiOutlineSmile } from "react-icons/ai";
+import { HiOutlinePhoto } from "react-icons/hi2";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const NewsFeedMiddle = () => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
@@ -38,8 +55,6 @@ const NewsFeedMiddle = () => {
   const handleClick = () => {
     inputRef.current.click();
   };
-
-
 
   useEffect(() => {
     dispatch(getPostAction());
@@ -172,7 +187,7 @@ const NewsFeedMiddle = () => {
                       setPost({
                         ...post,
                         user: userProfileAPIRS._id,
-                        text: e.target.value
+                        text: e.target.value,
                       });
                     }}
                   />
@@ -315,6 +330,71 @@ const NewsFeedMiddle = () => {
                       singlePost={singlePost}
                       i={i}
                     ></LikeAndUnlike>
+                    <Row className=" d-flex align-items-center mx-2 mt-3">
+                      <div className="col-1">
+                        <img
+                          id="profile-comment"
+                          className="comment-pro"
+                          src={userProfileAPIRS && userProfileAPIRS.image}
+                          alt="profile"
+                        ></img>
+                      </div>
+                      <div className="col">
+                        <InputGroup>
+                          <FormControl
+                            placeholder="Add a comment..."
+                            aria-label="Add a comment..."
+                            aria-describedby="basic-addon2"
+                          />
+                          <InputGroup.Append>
+                            <Button variant="outline-secondary">
+                              <AiOutlineSmile />
+                            </Button>
+                            <Button variant="outline-secondary">
+                              <HiOutlinePhoto />
+                            </Button>
+                          </InputGroup.Append>
+                        </InputGroup>
+                      </div>
+                    </Row>
+                    <hr />
+                    <div className="">
+                      <div>
+                        {singlePost.comments &&
+                          singlePost.comments
+                            .slice(Math.max(postsArray.length - 3, 0))
+                            .reverse()
+                            .map((c, i) => {
+                              return (
+                                <>
+                                  <Row className="mx-3">
+                                    <div className="col-1 px-0 mt-1 d-flex justify-content-center">
+                                      <img
+                                        src={c.user.image}
+                                        alt="profile"
+                                        className="comment-pro"
+                                      ></img>
+                                    </div>
+                                    <div className="my-2 col pl-1 comment-box2">
+                                      <Row className="">
+                                        <p className="col ml-auto">
+                                          {c.user.name} {c.user.surname}
+                                        </p>
+                                        <p className="col-1 btn mr-3 align-item-center">
+                                          <RiDeleteBin6Line />
+                                        </p>
+                                      </Row>
+                                      <p className="user-title">
+                                        {c.user.title}
+                                      </p>
+                                      <p>{c.comment ? c.comment : ""}</p>
+                                    </div>
+                                  </Row>
+                                </>
+                              );
+                            })}
+                      </div>
+                    </div>
                   </Card>
                 </Col>
               </Row>
