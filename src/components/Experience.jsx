@@ -102,90 +102,89 @@ const Experience = () => {
         </div>
       </Col>
       <Row className="d-flex justify-content-between mb-2 pr-0">
-        {userProfileAPIRS &&
-          userProfileAPIRS.experience?.map((data) => (
-            <Row key={data._id} className="mb-3 pr-0">
-              <Col lg={2} className="">
-                <img id="experience-image" src={data.imageUrl} alt="" />
-              </Col>
-              <Col lg={10} className="pl-4 pr-0 d-flex justify-content-between">
-                <div className="d-flex flex-column">
-                  <p id="mini-headers" className="mb-0">
-                    Role: {data.role}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    Company: {data.company}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    {/* Start Date: {format(parseISO(data.startDate), "P")} */}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    End Date:{" "}
-                    {/* {data.endDate && format(parseISO(data.endDate), "P")} */}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    Description: {data.description}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    Location: {data.area}
-                  </p>
-                </div>
-                <div className="d-flex">
-                  <p className="mb-0">
-                    <MdOutlineAddAPhoto
+        {userProfileAPIRS.experience?.map((data) => (
+          <Row key={data._id} className="mb-3 pr-0">
+            <Col lg={2} className="">
+              <img id="experience-image" src={data.imageUrl} alt="" />
+            </Col>
+            <Col lg={10} className="pl-4 pr-0 d-flex justify-content-between">
+              <div className="d-flex flex-column">
+                <p id="mini-headers" className="mb-0">
+                  Role: {data.role}
+                </p>
+                <p id="post-details" className="mb-0">
+                  Company: {data.company}
+                </p>
+                <p id="post-details" className="mb-0">
+                  {/* Start Date: {format(parseISO(data.startDate), "P")} */}
+                </p>
+                <p id="post-details" className="mb-0">
+                  End Date:{" "}
+                  {/* {data.endDate && format(parseISO(data.endDate), "P")} */}
+                </p>
+                <p id="post-details" className="mb-0">
+                  Description: {data.description}
+                </p>
+                <p id="post-details" className="mb-0">
+                  Location: {data.area}
+                </p>
+              </div>
+              <div className="d-flex">
+                <p className="mb-0">
+                  <MdOutlineAddAPhoto
+                    id="analytics-icons"
+                    onClick={handleClick}
+                  ></MdOutlineAddAPhoto>
+                </p>
+                <Link to="/">
+                  <p className="mb-0 text-dark">
+                    <FiSend
                       id="analytics-icons"
-                      onClick={handleClick}
-                    ></MdOutlineAddAPhoto>
+                      onClick={() => {
+                        handleUpload(userProfileAPIRS._id, data._id);
+                        handleShowSuccessful();
+                      }}
+                    ></FiSend>
                   </p>
-                  <Link to="/">
-                    <p className="mb-0 text-dark">
-                      <FiSend
-                        id="analytics-icons"
-                        onClick={() => {
-                          handleUpload(userProfileAPIRS._id, data._id);
-                          handleShowSuccessful();
-                        }}
-                      ></FiSend>
-                    </p>
-                  </Link>
-                  <form
-                    className="d-flex justify-content-around align-items-center"
-                    p
-                  >
-                    <input
-                      style={{ display: "none" }}
-                      ref={inputRef}
-                      type="file"
-                      name="file"
-                      onChange={handleFile}
-                    />
-                  </form>
-                  <p
-                    className="mb-0"
-                    onClick={() =>
-                      navigate(`/${data.user}/experiences/${data._id}`)
-                    }
-                  >
-                    <BiPencil id="analytics-icons"></BiPencil>
-                  </p>
-                  <p
-                    className="mb-0"
-                    onClick={() => {
-                      dispatch(
-                        deleteSpecificExperienceAction(
-                          userProfileAPIRS._id,
-                          data._id
-                        )
-                      );
-                      setChanged(true);
-                    }}
-                  >
-                    <RxCross2 id="analytics-icons"></RxCross2>
-                  </p>
-                </div>
-              </Col>
-            </Row>
-          ))}
+                </Link>
+                <form
+                  className="d-flex justify-content-around align-items-center"
+                  p
+                >
+                  <input
+                    style={{ display: "none" }}
+                    ref={inputRef}
+                    type="file"
+                    name="file"
+                    onChange={handleFile}
+                  />
+                </form>
+                <p
+                  className="mb-0"
+                  onClick={() =>
+                    navigate(`/${data.user}/experiences/${data._id}`)
+                  }
+                >
+                  <BiPencil id="analytics-icons"></BiPencil>
+                </p>
+                <p
+                  className="mb-0"
+                  onClick={() => {
+                    dispatch(
+                      deleteSpecificExperienceAction(
+                        userProfileAPIRS._id,
+                        data._id
+                      )
+                    );
+                    setChanged(true);
+                  }}
+                >
+                  <RxCross2 id="analytics-icons"></RxCross2>
+                </p>
+              </div>
+            </Col>
+          </Row>
+        ))}
       </Row>
       <Col className="d-flex"></Col>
       <Modal show={showPost} onHide={handleClosePlus}>
