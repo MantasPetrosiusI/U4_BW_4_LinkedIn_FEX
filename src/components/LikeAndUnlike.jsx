@@ -6,12 +6,6 @@ import { IoIosSend } from "react-icons/io";
 import { AiTwotoneLike } from "react-icons/ai";
 import { Col, Row } from "react-bootstrap";
 import { getPostAction } from "../redux/actions";
-import { useEffect, useState } from "react";
-import {
-  deletePostAction,
-  getPostAction,
-  sendPostAsyncAction,
-} from "../redux/actions";
 
 const LikeAndUnlike = (props) => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);

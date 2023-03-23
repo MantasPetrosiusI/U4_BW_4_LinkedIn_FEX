@@ -29,6 +29,7 @@ import { AiOutlineSmile } from "react-icons/ai";
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BsThreeDots } from "react-icons/bs";
+import { click } from "@testing-library/user-event/dist/click";
 
 const NewsFeedMiddle = () => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
@@ -60,7 +61,13 @@ const NewsFeedMiddle = () => {
   const handleClick = () => {
     inputRef.current.click();
   };
-
+  const handleClick2 = () => {
+    postsArray.forEach((post) => {
+      post.addEventListener("click", () => {
+        const id = postsArray.indexOf(post);
+      });
+    });
+  };
   useEffect(() => {
     dispatch(getPostAction());
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -401,7 +408,7 @@ const NewsFeedMiddle = () => {
                                             </Dropdown.Item>
                                             <Dropdown.Item>Edit</Dropdown.Item>
                                             <Dropdown.Item
-                                              onClick={deletePostCommentAction}
+                                              onClick={handleClick}
                                             >
                                               <RiDeleteBin6Line /> Delete
                                             </Dropdown.Item>

@@ -186,6 +186,7 @@ const Experience = () => {
           <Button
             href={`${process.env.REACT_APP_BE_URL}/users/${userProfileAPIRS._id}/experiences/CSV
            `}
+            download="filename.csv"
           >
             Download CSV
           </Button>
