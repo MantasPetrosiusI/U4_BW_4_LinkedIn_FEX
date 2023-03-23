@@ -11,8 +11,6 @@ import { deletePostAction, getPostAction, sendPostAsyncAction, } from "../redux/
 
 const LikeAndUnlike = (props) => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
-  const [likeProp, setLikeProp] = useState();
-  const [likes, setLikes] = useState(false);
 
   const toggleLikes = async (postID, userID) => {
     const likeBody = {
@@ -27,7 +25,6 @@ const LikeAndUnlike = (props) => {
         }),
       })
       let data = await res.json()
-      setLikeProp(data)
       dispatch(getPostAction());
     } catch (error) {
       console.log(error)
