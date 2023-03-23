@@ -13,11 +13,9 @@ import {
   postUserExperience,
   deleteSpecificExperienceAction,
 } from "../redux/actions";
-import { getUserProfileApi, getExperienceAction } from "../redux/actions";
+import { getExperienceAction } from "../redux/actions";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { FiSend } from "react-icons/fi";
-import { parseISO } from "date-fns";
-import format from "date-fns/format";
 import { BsUpload } from "react-icons/bs";
 
 const Experience = () => {
@@ -64,7 +62,9 @@ const Experience = () => {
   };
 
   function handleUpload(userId, expId) {
-    const baseURL = process.env.REACT_APP_BE_URL + `/users/${userId}/experiences/${expId}/image`;
+    const baseURL =
+      process.env.REACT_APP_BE_URL +
+      `/users/${userId}/experiences/${expId}/image`;
     const formData = new FormData();
     formData.append("expImg", file);
     fetch(baseURL, {
@@ -103,7 +103,7 @@ const Experience = () => {
       </Col>
       <Row className="d-flex justify-content-between mb-2 pr-0">
         {userProfileAPIRS &&
-          userProfileAPIRS.experience.map((data) => (
+          userProfileAPIRS.experience?.map((data) => (
             <Row key={data._id} className="mb-3 pr-0">
               <Col lg={2} className="">
                 <img id="experience-image" src={data.imageUrl} alt="" />
