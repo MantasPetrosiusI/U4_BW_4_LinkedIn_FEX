@@ -33,7 +33,6 @@ const Experience = () => {
   const handleShowSuccessful = () => setSuccessful(true);
 
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
-  console.log(userProfileAPIRS);
 
   const userExperiencesAPIRS = useSelector(
     (state) => state.getExperience.content
@@ -54,13 +53,11 @@ const Experience = () => {
     setFile(event.target.files[0]);
     console.log(event.target.files[0]);
   }
-
   const inputRef = useRef(null);
 
   const handleClick = () => {
     inputRef.current.click();
   };
-
   function handleUpload(userId, expId) {
     const baseURL =
       process.env.REACT_APP_BE_URL +
@@ -185,6 +182,14 @@ const Experience = () => {
             </Col>
           </Row>
         ))}
+        <Row>
+          <Button
+            href={`${process.env.REACT_APP_BE_URL}/users/${userProfileAPIRS._id}/experiences/CSV
+           `}
+          >
+            Download CSV
+          </Button>
+        </Row>
       </Row>
       <Col className="d-flex"></Col>
       <Modal show={showPost} onHide={handleClosePlus}>

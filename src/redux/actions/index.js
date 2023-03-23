@@ -242,7 +242,6 @@ export const getExperienceAction = (userId) => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         dispatch({
           type: GET_EXPERIENCE,
           payload: data,
@@ -287,6 +286,7 @@ export const postUserExperience = (userId, expId, file) => {
     endDate: enddateInput.value,
     description: descriptionInput.value,
     area: areaInput.value,
+    user: userId,
   };
   return async (dispatch, getState) => {
     try {
@@ -320,7 +320,7 @@ function handleUploadActionExp(userId, expId, file) {
     process.env.REACT_APP_BE_URL +
     `/users/${userId}/experiences/${expId}/image`;
   const formData = new FormData();
-  formData.append("experience", file);
+  formData.append("expImg", file);
   fetch(baseURL, {
     method: "POST",
     body: formData,
@@ -368,15 +368,12 @@ export const putUserExperience = (userId, expId) => {
   );
   const areaInput = document.getElementById("put-experience-area");
   const editedData = {
+    user: userId,
     role: roleInput.value ? roleInput.value : roleInput.placeholder,
     company: companyInput.value ? companyInput.value : companyInput.placeholder,
-    startDate: startdateInput.value
-      ? startdateInput.value
-      : startdateInput.placeholder,
+    startDate: startdateInput.value ? startdateInput.value : startdateInput.placeholder,
     endDate: enddateInput.value ? enddateInput.value : enddateInput.placeholder,
-    description: descriptionInput.value
-      ? descriptionInput.value
-      : descriptionInput.placeholder,
+    description: descriptionInput.value ? descriptionInput.value : descriptionInput.placeholder,
     area: areaInput.value ? areaInput.value : areaInput.placeholder,
   };
   return async (dispatch, getState) => {
@@ -521,7 +518,7 @@ export const postExpImageAction = (userId, experienceId) => {
     try {
       let res = fetch(
         process.env.REACT_APP_BE_URL +
-        `/users/${userId}/experiences/${experienceId}/image`,
+          `/users/${userId}/experiences/${experienceId}/image`,
         {
           method: "POST",
           body: JSON.stringify(expImage),
