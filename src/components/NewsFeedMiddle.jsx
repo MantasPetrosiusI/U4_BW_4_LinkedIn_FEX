@@ -9,16 +9,12 @@ import {
   Alert,
   InputGroup,
   FormControl,
-  Dropdown,
-  DropdownButton,
 } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import {
   deletePostAction,
   getPostAction,
   sendPostAsyncAction,
-  sendPostCommentAsyncAction,
-  deletePostCommentAction,
 } from "../redux/actions";
 import format from "date-fns/format";
 import { parseISO } from "date-fns";
@@ -356,12 +352,7 @@ const NewsFeedMiddle = () => {
                           <FormControl
                             placeholder="Add a comment..."
                             aria-label="Add a comment..."
-                            value={post.comment}
                             aria-describedby="basic-addon2"
-                            onClick={sendPostCommentAsyncAction(
-                              post.comment,
-                              post._id
-                            )}
                           />
                           <InputGroup.Append>
                             <Button variant="outline-secondary">
@@ -418,7 +409,7 @@ const NewsFeedMiddle = () => {
                                       <p className="user-title">
                                         {c.user.title}
                                       </p>
-                                      <p>{c.comment ? c.comment : ""} </p>
+                                      <p>{c.comment ? c.comment : ""}</p>
                                     </div>
                                   </Row>
                                 </>
