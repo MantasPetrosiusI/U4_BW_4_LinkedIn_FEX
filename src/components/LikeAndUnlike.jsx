@@ -4,42 +4,42 @@ import { TfiCommentAlt } from "react-icons/tfi";
 import { RxLoop } from "react-icons/rx";
 import { IoIosSend } from "react-icons/io";
 import { AiTwotoneLike } from "react-icons/ai";
-import { likeAction, unlikeAction } from "../redux/actions";
-import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { deletePostAction, getPostAction, sendPostAsyncAction, } from "../redux/actions";
+import { getPostAction } from "../redux/actions";
 
 const LikeAndUnlike = (props) => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
-  const [likeProp, setLikeProp] = useState();
-  const [likes, setLikes] = useState(false);
 
   const toggleLikes = async (postID, userID) => {
     const likeBody = {
-      userID: userID
-    }
+      userID: userID,
+    };
     try {
-      let res = await fetch(process.env.REACT_APP_BE_URL + `/posts/${postID}/like`, {
-        method: "PUT",
-        body: JSON.stringify(likeBody),
-        headers: new Headers({
-          "Content-Type": "application/json",
-        }),
-      })
-      let data = await res.json()
-      setLikeProp(data)
+      let res = await fetch(
+        process.env.REACT_APP_BE_URL + `/posts/${postID}/like`,
+        {
+          method: "PUT",
+          body: JSON.stringify(likeBody),
+          headers: new Headers({
+            "Content-Type": "application/json",
+          }),
+        }
+      );
+      let data = await res.json();
       dispatch(getPostAction());
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   const dispatch = useDispatch();
 
   return (
     <div className="card-footer p-0">
       <Row className="justify-content-center align-items-center">
         <Col className="text-center comment-box pt-2">
-          {props.singlePost.likes.some(e => e._id === userProfileAPIRS._id) ? (
+          {props.singlePost.likes.some(
+            (e) => e._id === userProfileAPIRS._id
+          ) ? (
             <button
               className="comment-box-btn ml-3"
               onClick={() => {
