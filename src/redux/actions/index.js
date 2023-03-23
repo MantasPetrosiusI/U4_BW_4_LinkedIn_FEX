@@ -242,7 +242,6 @@ export const getExperienceAction = (userId) => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         dispatch({
           type: GET_EXPERIENCE,
           payload: data,
@@ -521,7 +520,7 @@ export const postExpImageAction = (userId, experienceId) => {
     try {
       let res = fetch(
         process.env.REACT_APP_BE_URL +
-        `/users/${userId}/experiences/${experienceId}/image`,
+          `/users/${userId}/experiences/${experienceId}/image`,
         {
           method: "POST",
           body: JSON.stringify(expImage),

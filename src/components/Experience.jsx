@@ -13,11 +13,9 @@ import {
   postUserExperience,
   deleteSpecificExperienceAction,
 } from "../redux/actions";
-import { getUserProfileApi, getExperienceAction } from "../redux/actions";
+import { getExperienceAction } from "../redux/actions";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { FiSend } from "react-icons/fi";
-import { parseISO } from "date-fns";
-import format from "date-fns/format";
 import { BsUpload } from "react-icons/bs";
 
 const Experience = () => {
@@ -35,7 +33,6 @@ const Experience = () => {
   const handleShowSuccessful = () => setSuccessful(true);
 
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
-  console.log(userProfileAPIRS);
 
   const userExperiencesAPIRS = useSelector(
     (state) => state.getExperience.content
@@ -56,15 +53,15 @@ const Experience = () => {
     setFile(event.target.files[0]);
     console.log(event.target.files[0]);
   }
-
   const inputRef = useRef(null);
 
   const handleClick = () => {
     inputRef.current.click();
   };
-
   function handleUpload(userId, expId) {
-    const baseURL = process.env.REACT_APP_BE_URL + `/users/${userId}/experiences/${expId}/image`;
+    const baseURL =
+      process.env.REACT_APP_BE_URL +
+      `/users/${userId}/experiences/${expId}/image`;
     const formData = new FormData();
     formData.append("expImg", file);
     fetch(baseURL, {
@@ -185,6 +182,14 @@ const Experience = () => {
             </Col>
           </Row>
         ))}
+        <Row>
+          <Button
+            href={`${process.env.REACT_APP_BE_URL}/users/${userProfileAPIRS._id}/experiences/CSV
+           `}
+          >
+            Download CSV
+          </Button>
+        </Row>
       </Row>
       <Col className="d-flex"></Col>
       <Modal show={showPost} onHide={handleClosePlus}>
