@@ -9,6 +9,8 @@ import {
   Alert,
   InputGroup,
   FormControl,
+  Dropdown,
+  DropdownButton,
 } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -24,6 +26,8 @@ import LikeAndUnlike from "./LikeAndUnlike";
 import { AiOutlineSmile } from "react-icons/ai";
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { BsThreeDots } from "react-icons/bs";
+import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 const NewsFeedMiddle = () => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
@@ -380,14 +384,26 @@ const NewsFeedMiddle = () => {
                                         <p className="col ml-auto">
                                           {c.user.name} {c.user.surname}
                                         </p>
-                                        <p className="col-1 btn mr-3 align-item-center">
-                                          <RiDeleteBin6Line />
-                                        </p>
+                                        <div className="col-1 btn mr-3 align-item-center">
+                                          <DropdownButton
+                                            className="pr-3"
+                                            align="end"
+                                            title={<BsThreeDots />}
+                                          >
+                                            <Dropdown.Item>
+                                              Copy link to comment
+                                            </Dropdown.Item>
+                                            <Dropdown.Item>Edit</Dropdown.Item>
+                                            <Dropdown.Item>
+                                              <RiDeleteBin6Line /> Delete
+                                            </Dropdown.Item>
+                                          </DropdownButton>
+                                        </div>
                                       </Row>
                                       <p className="user-title">
                                         {c.user.title}
                                       </p>
-                                      <p>{c.comment ? c.comment : ""}</p>
+                                      <p>{c.comment ? c.comment : ""} </p>
                                     </div>
                                   </Row>
                                 </>
