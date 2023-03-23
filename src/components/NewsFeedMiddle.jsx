@@ -1,5 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Card, Form, Modal, Row, Col, Alert } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Form,
+  Modal,
+  Row,
+  Col,
+  Alert,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import {
   deletePostAction,
@@ -9,30 +19,28 @@ import {
 import format from "date-fns/format";
 import { parseISO } from "date-fns";
 import { useNavigate } from "react-router-dom";
-
-import LikeAndUnlike from "./LikeAndUnlike";
 import { BsUpload } from "react-icons/bs";
+import LikeAndUnlike from "./LikeAndUnlike";
+import { AiOutlineSmile } from "react-icons/ai";
+import { HiOutlinePhoto } from "react-icons/hi2";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const NewsFeedMiddle = () => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
-  //   const thePostId = useSelector((state) => state.getPostsWithId.content);
-
   const [show, setShow] = useState(false);
   const [file, setFile] = useState();
-  //   const [changed, setChanged] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const handleCloseSuccessful = () => setSuccessful(false);
   const handleShowSuccessful = () => setSuccessful(true);
-
   const [deleted, setDeleted] = useState(false);
   const handleCloseDeleted = () => setDeleted(false);
   const handleShowDeleted = () => setDeleted(true);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [post, setPost] = useState({
-    text: "", // the only property you need to send
-    username: "",
+    text: "",
+    user: "",
+    image: "",
   });
 
   const dispatch = useDispatch();
@@ -54,6 +62,8 @@ const NewsFeedMiddle = () => {
   }, []);
 
   const allPosts = useSelector((state) => state.getPosts.content);
+  const postsArray = allPosts.posts;
+  console.log(postsArray);
 
   return (
     <>
@@ -176,9 +186,8 @@ const NewsFeedMiddle = () => {
                     onChange={(e) => {
                       setPost({
                         ...post,
+                        user: userProfileAPIRS._id,
                         text: e.target.value,
-                        username:
-                          userProfileAPIRS.name + userProfileAPIRS.surname,
                       });
                     }}
                   />
@@ -251,9 +260,9 @@ const NewsFeedMiddle = () => {
           </Alert>
         )}
       </Modal>
-      {allPosts &&
-        allPosts
-          .slice(Math.max(allPosts.length - 5, 0))
+      {postsArray &&
+        postsArray
+          .slice(Math.max(postsArray.length - 5, 0))
           .reverse()
           .map((singlePost, i) => {
             return (
@@ -269,7 +278,9 @@ const NewsFeedMiddle = () => {
                         ></img>
                         <div>
                           <p>
-                            <strong>{singlePost.username}</strong>
+                            <strong>
+                              {singlePost.user.name} {singlePost.user.surname}
+                            </strong>
                           </p>
                           <p>
                             <em>{singlePost.user.title}</em>
@@ -319,6 +330,71 @@ const NewsFeedMiddle = () => {
                       singlePost={singlePost}
                       i={i}
                     ></LikeAndUnlike>
+                    <Row className=" d-flex align-items-center mx-2 mt-3">
+                      <div className="col-1">
+                        <img
+                          id="profile-comment"
+                          className="comment-pro"
+                          src={userProfileAPIRS && userProfileAPIRS.image}
+                          alt="profile"
+                        ></img>
+                      </div>
+                      <div className="col">
+                        <InputGroup>
+                          <FormControl
+                            placeholder="Add a comment..."
+                            aria-label="Add a comment..."
+                            aria-describedby="basic-addon2"
+                          />
+                          <InputGroup.Append>
+                            <Button variant="outline-secondary">
+                              <AiOutlineSmile />
+                            </Button>
+                            <Button variant="outline-secondary">
+                              <HiOutlinePhoto />
+                            </Button>
+                          </InputGroup.Append>
+                        </InputGroup>
+                      </div>
+                    </Row>
+                    <hr />
+                    <div className="">
+                      <div>
+                        {singlePost.comments &&
+                          singlePost.comments
+                            .slice(Math.max(postsArray.length - 3, 0))
+                            .reverse()
+                            .map((c, i) => {
+                              return (
+                                <>
+                                  <Row className="mx-3">
+                                    <div className="col-1 px-0 mt-1 d-flex justify-content-center">
+                                      <img
+                                        src={c.user.image}
+                                        alt="profile"
+                                        className="comment-pro"
+                                      ></img>
+                                    </div>
+                                    <div className="my-2 col pl-1 comment-box2">
+                                      <Row className="">
+                                        <p className="col ml-auto">
+                                          {c.user.name} {c.user.surname}
+                                        </p>
+                                        <p className="col-1 btn mr-3 align-item-center">
+                                          <RiDeleteBin6Line />
+                                        </p>
+                                      </Row>
+                                      <p className="user-title">
+                                        {c.user.title}
+                                      </p>
+                                      <p>{c.comment ? c.comment : ""}</p>
+                                    </div>
+                                  </Row>
+                                </>
+                              );
+                            })}
+                      </div>
+                    </div>
                   </Card>
                 </Col>
               </Row>

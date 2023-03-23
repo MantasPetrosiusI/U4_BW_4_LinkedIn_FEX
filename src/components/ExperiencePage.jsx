@@ -20,13 +20,14 @@ const ExperiencePage = () => {
   const navigate = useNavigate();
 
   const singleExpData = useSelector((state) => state.experienceWithId.content);
+  const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
+  console.log(singleExpData)
+  console.log(userProfileAPIRS)
 
   useEffect(() => {
-    dispatch(getExperienceWithExpIdAction(params.user, params.id));
+    dispatch(getExperienceWithExpIdAction(userProfileAPIRS._id, params.id));
   }, []);
 
-  console.log("User ID", params.user, singleExpData.user);
-  console.log("Exp ID", params.id, singleExpData._id);
 
   return (
     <>
@@ -95,7 +96,7 @@ const ExperiencePage = () => {
               variant="primary"
               onClick={() => {
                 dispatch(
-                  putUserExperience(singleExpData.user, singleExpData._id)
+                  putUserExperience(userProfileAPIRS._id, params.id)
                 );
                 navigate("/");
               }}

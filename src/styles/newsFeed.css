@@ -156,3 +156,17 @@ span {
   height: 100% !important;
   border-radius: 0% !important;
 }
+
+.comment-box2 {
+  background-color: #f2f2f2;
+  height: 80px;
+}
+
+.user-title {
+  font-size: 11px;
+  color: rgb(160, 160, 160);
+}
+
+.comment-pro {
+  font-size: 12px;
+}

@@ -13,11 +13,9 @@ import {
   postUserExperience,
   deleteSpecificExperienceAction,
 } from "../redux/actions";
-import { getUserProfileApi, getExperienceAction } from "../redux/actions";
+import { getExperienceAction } from "../redux/actions";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { FiSend } from "react-icons/fi";
-import { parseISO } from "date-fns";
-import format from "date-fns/format";
 import { BsUpload } from "react-icons/bs";
 
 const Experience = () => {
@@ -35,12 +33,10 @@ const Experience = () => {
   const handleShowSuccessful = () => setSuccessful(true);
 
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
-  console.log(userProfileAPIRS);
 
   const userExperiencesAPIRS = useSelector(
     (state) => state.getExperience.content
   );
-  console.log(userExperiencesAPIRS);
 
   useEffect(() => {
     dispatch(getExperienceAction(userProfileAPIRS._id));
@@ -57,23 +53,20 @@ const Experience = () => {
     setFile(event.target.files[0]);
     console.log(event.target.files[0]);
   }
-
   const inputRef = useRef(null);
 
   const handleClick = () => {
     inputRef.current.click();
   };
-
-  function handleUpload(expId) {
-    const baseURL = `https://striveschool-api.herokuapp.com/api/profile/${userProfileAPIRS._id}/experiences/${expId}/picture`;
+  function handleUpload(userId, expId) {
+    const baseURL =
+      process.env.REACT_APP_BE_URL +
+      `/users/${userId}/experiences/${expId}/image`;
     const formData = new FormData();
-    formData.append("experience", file);
+    formData.append("expImg", file);
     fetch(baseURL, {
       method: "POST",
       body: formData,
-      headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-      },
     })
       .then((response) => response.json())
       .then((result) => {
@@ -106,90 +99,97 @@ const Experience = () => {
         </div>
       </Col>
       <Row className="d-flex justify-content-between mb-2 pr-0">
-        {userExperiencesAPIRS &&
-          userExperiencesAPIRS.map((data) => (
-            <Row key={data._id} className="mb-3 pr-0">
-              <Col lg={2} className="">
-                <img id="experience-image" src={data.image} alt="" />
-              </Col>
-              <Col lg={10} className="pl-4 pr-0 d-flex justify-content-between">
-                <div className="d-flex flex-column">
-                  <p id="mini-headers" className="mb-0">
-                    Role: {data.role}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    Company: {data.company}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    Start Date: {format(parseISO(data.startDate), "P")}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    End Date:{" "}
-                    {data.endDate && format(parseISO(data.endDate), "P")}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    Description: {data.description}
-                  </p>
-                  <p id="post-details" className="mb-0">
-                    Location: {data.area}
-                  </p>
-                </div>
-                <div className="d-flex">
-                  <p className="mb-0">
-                    <MdOutlineAddAPhoto
+        {userProfileAPIRS.experience?.map((data) => (
+          <Row key={data._id} className="mb-3 pr-0">
+            <Col lg={2} className="">
+              <img id="experience-image" src={data.imageUrl} alt="" />
+            </Col>
+            <Col lg={10} className="pl-4 pr-0 d-flex justify-content-between">
+              <div className="d-flex flex-column">
+                <p id="mini-headers" className="mb-0">
+                  Role: {data.role}
+                </p>
+                <p id="post-details" className="mb-0">
+                  Company: {data.company}
+                </p>
+                <p id="post-details" className="mb-0">
+                  {/* Start Date: {format(parseISO(data.startDate), "P")} */}
+                </p>
+                <p id="post-details" className="mb-0">
+                  End Date:{" "}
+                  {/* {data.endDate && format(parseISO(data.endDate), "P")} */}
+                </p>
+                <p id="post-details" className="mb-0">
+                  Description: {data.description}
+                </p>
+                <p id="post-details" className="mb-0">
+                  Location: {data.area}
+                </p>
+              </div>
+              <div className="d-flex">
+                <p className="mb-0">
+                  <MdOutlineAddAPhoto
+                    id="analytics-icons"
+                    onClick={handleClick}
+                  ></MdOutlineAddAPhoto>
+                </p>
+                <Link to="/">
+                  <p className="mb-0 text-dark">
+                    <FiSend
                       id="analytics-icons"
-                      onClick={handleClick}
-                    ></MdOutlineAddAPhoto>
+                      onClick={() => {
+                        handleUpload(userProfileAPIRS._id, data._id);
+                        handleShowSuccessful();
+                      }}
+                    ></FiSend>
                   </p>
-                  <Link to="/">
-                    <p className="mb-0 text-dark">
-                      <FiSend
-                        id="analytics-icons"
-                        onClick={() => {
-                          handleUpload(data._id);
-                          handleShowSuccessful();
-                        }}
-                      ></FiSend>
-                    </p>
-                  </Link>
-                  <form
-                    className="d-flex justify-content-around align-items-center"
-                    p
-                  >
-                    <input
-                      style={{ display: "none" }}
-                      ref={inputRef}
-                      type="file"
-                      name="file"
-                      onChange={handleFile}
-                    />
-                  </form>
-                  <p
-                    className="mb-0"
-                    onClick={() =>
-                      navigate(`/${data.user}/experiences/${data._id}`)
-                    }
-                  >
-                    <BiPencil id="analytics-icons"></BiPencil>
-                  </p>
-                  <p
-                    className="mb-0"
-                    onClick={() => {
-                      dispatch(
-                        deleteSpecificExperienceAction(
-                          userProfileAPIRS._id,
-                          data._id
-                        )
-                      );
-                      setChanged(true);
-                    }}
-                  >
-                    <RxCross2 id="analytics-icons"></RxCross2>
-                  </p>
-                </div>
-              </Col>
-            </Row>
-          ))}
+                </Link>
+                <form
+                  className="d-flex justify-content-around align-items-center"
+                  p
+                >
+                  <input
+                    style={{ display: "none" }}
+                    ref={inputRef}
+                    type="file"
+                    name="file"
+                    onChange={handleFile}
+                  />
+                </form>
+                <p
+                  className="mb-0"
+                  onClick={() =>
+                    navigate(`/${data.user}/experiences/${data._id}`)
+                  }
+                >
+                  <BiPencil id="analytics-icons"></BiPencil>
+                </p>
+                <p
+                  className="mb-0"
+                  onClick={() => {
+                    dispatch(
+                      deleteSpecificExperienceAction(
+                        userProfileAPIRS._id,
+                        data._id
+                      )
+                    );
+                    setChanged(true);
+                  }}
+                >
+                  <RxCross2 id="analytics-icons"></RxCross2>
+                </p>
+              </div>
+            </Col>
+          </Row>
+        ))}
+        <Row>
+          <Button
+            href={`${process.env.REACT_APP_BE_URL}/users/${userProfileAPIRS._id}/experiences/CSV
+           `}
+          >
+            Download CSV
+          </Button>
+        </Row>
       </Row>
       <Col className="d-flex"></Col>
       <Modal show={showPost} onHide={handleClosePlus}>
@@ -272,8 +272,8 @@ const Experience = () => {
             onClick={() => {
               dispatch(
                 postUserExperience(
-                  userExperiencesAPIRS._id,
                   userProfileAPIRS._id,
+                  userExperiencesAPIRS._id,
                   file
                 )
               );
