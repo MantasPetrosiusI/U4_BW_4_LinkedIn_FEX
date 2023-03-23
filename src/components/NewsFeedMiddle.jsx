@@ -54,6 +54,8 @@ const NewsFeedMiddle = () => {
   }, []);
 
   const allPosts = useSelector((state) => state.getPosts.content);
+  const postsArray = allPosts.posts;
+  console.log(postsArray);
 
   return (
     <>
@@ -251,9 +253,9 @@ const NewsFeedMiddle = () => {
           </Alert>
         )}
       </Modal>
-      {allPosts &&
-        allPosts
-          .slice(Math.max(allPosts.length - 5, 0))
+      {postsArray &&
+        postsArray
+          .slice(Math.max(postsArray.length - 5, 0))
           .reverse()
           .map((singlePost, i) => {
             return (
@@ -269,7 +271,9 @@ const NewsFeedMiddle = () => {
                         ></img>
                         <div>
                           <p>
-                            <strong>{singlePost.username}</strong>
+                            <strong>
+                              {singlePost.user.name} {singlePost.user.surname}
+                            </strong>
                           </p>
                           <p>
                             <em>{singlePost.user.title}</em>
