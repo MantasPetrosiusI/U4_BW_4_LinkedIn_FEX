@@ -297,7 +297,6 @@ export const postUserExperience = (userId, expId, file) => {
           body: JSON.stringify(editedData),
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
           },
         }
       );
@@ -549,7 +548,6 @@ export const addPostImageAction = (postID) => {
         body: JSON.stringify(postImage),
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
         },
       });
       if (res.ok) {

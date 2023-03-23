@@ -56,16 +56,13 @@ const ProfileAvatar = () => {
     inputRef.current.click();
   };
 
-  function handleUpload() {
-    const baseURL = `https://striveschool-api.herokuapp.com/api/profile/${userProfileAPIRS._id}/picture`;
+  function handleUpload(userId) {
+    const baseURL = process.env.REACT_APP_BE_URL + `/users/${userId}/image`;
     const formData = new FormData();
-    formData.append("profile", file);
+    formData.append("image", file);
     fetch(baseURL, {
       method: "POST",
       body: formData,
-      headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
-      },
     })
       .then((response) => response.json())
       .then((result) => {
@@ -254,7 +251,7 @@ const ProfileAvatar = () => {
                       id="profile-pic-update-buttons"
                       className="p-2"
                       onClick={() => {
-                        handleUpload();
+                        handleUpload(userProfileAPIRS._id);
                         handleShowSuccessful();
                       }}
                     >
