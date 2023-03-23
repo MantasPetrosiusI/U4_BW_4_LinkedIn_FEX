@@ -1,38 +1,29 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Card, Form, Modal, Row, Col, Alert } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
-import {
-  deletePostAction,
-  getPostAction,
-  sendPostAsyncAction,
-} from "../redux/actions";
+import { deletePostAction, getPostAction, sendPostAsyncAction, } from "../redux/actions";
 import format from "date-fns/format";
 import { parseISO } from "date-fns";
 import { useNavigate } from "react-router-dom";
-
-import LikeAndUnlike from "./LikeAndUnlike";
 import { BsUpload } from "react-icons/bs";
+import LikeAndUnlike from "./LikeAndUnlike";
 
 const NewsFeedMiddle = () => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
-  //   const thePostId = useSelector((state) => state.getPostsWithId.content);
-
   const [show, setShow] = useState(false);
   const [file, setFile] = useState();
-  //   const [changed, setChanged] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const handleCloseSuccessful = () => setSuccessful(false);
   const handleShowSuccessful = () => setSuccessful(true);
-
   const [deleted, setDeleted] = useState(false);
   const handleCloseDeleted = () => setDeleted(false);
   const handleShowDeleted = () => setDeleted(true);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [post, setPost] = useState({
-    text: "", // the only property you need to send
-    username: "",
+    text: "",
+    user: "",
+    image: "",
   });
 
   const dispatch = useDispatch();
@@ -47,6 +38,8 @@ const NewsFeedMiddle = () => {
   const handleClick = () => {
     inputRef.current.click();
   };
+
+
 
   useEffect(() => {
     dispatch(getPostAction());
@@ -178,9 +171,8 @@ const NewsFeedMiddle = () => {
                     onChange={(e) => {
                       setPost({
                         ...post,
-                        text: e.target.value,
-                        username:
-                          userProfileAPIRS.name + userProfileAPIRS.surname,
+                        user: userProfileAPIRS._id,
+                        text: e.target.value
                       });
                     }}
                   />
