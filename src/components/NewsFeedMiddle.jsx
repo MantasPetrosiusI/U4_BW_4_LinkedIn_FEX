@@ -9,6 +9,8 @@ import {
   Alert,
   InputGroup,
   FormControl,
+  Dropdown,
+  DropdownButton,
 } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -25,7 +27,6 @@ import { AiOutlineSmile } from "react-icons/ai";
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BsThreeDots } from "react-icons/bs";
-import { click } from "@testing-library/user-event/dist/click";
 
 const NewsFeedMiddle = () => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
@@ -56,13 +57,6 @@ const NewsFeedMiddle = () => {
 
   const handleClick = () => {
     inputRef.current.click();
-  };
-  const handleClick2 = () => {
-    postsArray.forEach((post) => {
-      post.addEventListener("click", () => {
-        const id = postsArray.indexOf(post);
-      });
-    });
   };
   useEffect(() => {
     dispatch(getPostAction());
@@ -199,21 +193,6 @@ const NewsFeedMiddle = () => {
                       });
                     }}
                   />
-                  {/* <input
-                    style={{ display: "none" }}
-                    ref={inputRef}
-                    type="file"
-                    name="file"
-                    onChange={handleFile}
-                  />
-                  <Button
-                    id="profile-pic-update-buttons text-dark"
-                    className="p-2"
-                    onClick={handleClick}
-                  >
-                    <BsUpload></BsUpload>
-                    <p className="mb-0">UPLOAD</p>
-                  </Button> */}
                   <label className="form-label" htmlFor="textAreaExample">
                     <p className="mb-5 pb-5">Post content!</p>
                   </label>
