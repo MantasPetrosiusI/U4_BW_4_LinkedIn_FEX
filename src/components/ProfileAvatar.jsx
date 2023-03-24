@@ -1,10 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Image, Row, Col, Modal, Alert } from "react-bootstrap";
-import { AiFillCamera } from "react-icons/ai";
 import { FiEdit2 } from "react-icons/fi";
-import { RiGalleryFill } from "react-icons/ri";
-import { ImBin } from "react-icons/im";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import { putUserProfileApi } from "../redux/actions";
