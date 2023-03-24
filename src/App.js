@@ -12,9 +12,9 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
+          <Route element={<NewsFeed />} path="/" />
           <Route element={<MainLayout />} path="/users/:userId" />
           <Route element={<ExperiencePage />} path="/:user/experiences/:id" />
-          <Route element={<NewsFeed />} path="/feed" />
           <Route element={<NewsFeedEditPage />} path="/posts/:id" />
         </Routes>
       </div>
