@@ -84,6 +84,7 @@ const NavBar = () => {
     dispatch(toggleShow());
   };
 
+
   return (
     <div className="d-flex flex-column">
       <Navbar className="fixed-top" id="top-nav">
