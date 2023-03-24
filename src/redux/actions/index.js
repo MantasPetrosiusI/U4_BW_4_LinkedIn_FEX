@@ -24,10 +24,10 @@ export const UNLIKE = "UNLIKE";
 export const TOGGLE_SHOW = "TOGGLE_SHOW";
 
 //PROFILE
-export const getUserProfileApi = () => {
+export const getUserProfileApi = (userId) => {
   return async (dispatch, getState) => {
     const baseEndpoint =
-      process.env.REACT_APP_BE_URL + `/users/6418663bed18214ac7e041e4`;
+      process.env.REACT_APP_BE_URL + `/users/${userId}`;
     try {
       let resp = await fetch(baseEndpoint);
       if (resp.ok) {
@@ -67,7 +67,7 @@ export const getUserProfileApi = () => {
   };
 };
 
-export const putUserProfileApi = () => {
+export const putUserProfileApi = (userId) => {
   const nameInput = document.getElementById("change-name");
   const surnameInput = document.getElementById("change-surname");
   const emailInput = document.getElementById("change-email");
@@ -97,7 +97,7 @@ export const putUserProfileApi = () => {
 
   return async (dispatch, getState) => {
     const baseEndpoint =
-      process.env.REACT_APP_BE_URL + `/users/6418663bed18214ac7e041e4`;
+      process.env.REACT_APP_BE_URL + `/users/${userId}`;
 
     try {
       let resp = await fetch(baseEndpoint, optionsPUT);
@@ -111,7 +111,7 @@ export const putUserProfileApi = () => {
           type: PUT_USER_PROFILE_UPDATE,
           payload: data,
         });
-        dispatch(getUserProfileApi());
+        dispatch(getUserProfileApi(userId));
         dispatch({
           type: GET_USER_LOADING,
           payload: false,
@@ -306,7 +306,7 @@ export const postUserExperience = (userId, expId, file) => {
           type: GET_POSTS_WITH_ID,
           payload: data.id,
         });
-        dispatch(getUserProfileApi());
+        dispatch(getUserProfileApi(userId));
         dispatch(handleUploadActionExp(data._id, expId, file));
       }
     } catch (error) {
@@ -350,7 +350,7 @@ export const deleteSpecificExperienceAction = (userId, expId) => {
           type: DELETE_EXPERIENCE,
           payload: data,
         });
-        dispatch(getUserProfileApi());
+        dispatch(getUserProfileApi(userId));
       }
     } catch (error) {
       console.log(error);
@@ -521,7 +521,7 @@ export const postExpImageAction = (userId, experienceId) => {
     try {
       let res = fetch(
         process.env.REACT_APP_BE_URL +
-          `/users/${userId}/experiences/${experienceId}/image`,
+        `/users/${userId}/experiences/${experienceId}/image`,
         {
           method: "POST",
           body: JSON.stringify(expImage),
