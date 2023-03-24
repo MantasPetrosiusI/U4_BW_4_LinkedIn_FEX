@@ -86,7 +86,7 @@ const NavBar = () => {
       <Navbar className="fixed-top" id="top-nav">
         <Container>
           <Link
-            to={"/feed"}
+            to={"/"}
             onClick={window.removeEventListener("scroll", headerChange)}
           >
             <Navbar.Brand>
@@ -123,8 +123,8 @@ const NavBar = () => {
             />
             <div id="search-popup" className="position-absolute w-100">
               {results &&
-                results.map((oneResult) =>
-                  console.log(oneResult)(
+                results.map(
+                  (oneResult) => (
                     // <Link to={"/:oneResult.id"}>
                     <li
                       className="py-2"
@@ -152,7 +152,7 @@ const NavBar = () => {
             </div>
           </Form>
           <Nav className="ml-auto ">
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -167,7 +167,7 @@ const NavBar = () => {
               </svg>
               <p className="text-gone">Home</p>
             </Link>
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -182,7 +182,7 @@ const NavBar = () => {
               </svg>{" "}
               <p className="text-gone">My Network</p>
             </Link>
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -212,10 +212,7 @@ const NavBar = () => {
               </svg>
               <p className="text-gone">Messaging</p>
             </Nav.Link>
-            <Link
-              to={"/feed"}
-              className="text-center nav-link position-relative"
-            >
+            <Link to={"/"} className="text-center nav-link position-relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

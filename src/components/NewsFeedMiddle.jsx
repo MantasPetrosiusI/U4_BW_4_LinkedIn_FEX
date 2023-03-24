@@ -248,7 +248,7 @@ const NewsFeedMiddle = () => {
               dispatch(sendPostAsyncAction(post, file));
               dispatch(getPostAction());
               handleClose();
-              navigate("/feed");
+              navigate("/");
               setPost({ text: "" });
               handleShowSuccessful();
               //   dispatch(getPostAction());

@@ -57,7 +57,7 @@ const NewsFeedEditPage = () => {
                 className="col-2"
                 variant="dark"
                 onClick={() => {
-                  navigate("/feed");
+                  navigate("/");
                 }}
               >
                 Back
@@ -86,7 +86,7 @@ const NewsFeedEditPage = () => {
                   dispatch(putPostAction(params.id));
                   handleUploadAction(params.id, file);
                   alert("Successfully Edited");
-                  navigate("/feed");
+                  navigate("/");
                 }}
               >
                 EDIT

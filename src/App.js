@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route element={<MainLayout />} path="users/:userId" />
           <Route element={<ExperiencePage />} path="/:user/experiences/:id" />
-          <Route element={<NewsFeed />} path="/feed" />
+          <Route element={<NewsFeed />} path="/" />
           <Route element={<NewsFeedEditPage />} path="/posts/:id" />
         </Routes>
       </div>
