@@ -81,6 +81,7 @@ const NavBar = () => {
     dispatch(toggleShow());
   };
 
+
   return (
     <div className="d-flex flex-column">
       <Navbar className="fixed-top" id="top-nav">
@@ -123,31 +124,34 @@ const NavBar = () => {
             />
             <div id="search-popup" className="position-absolute w-100">
               {results &&
-                results.map((oneResult) =>
-                  console.log(oneResult)(
-                    // <Link to={"/:oneResult.id"}>
-                    <li
-                      className="py-2"
-                      key={oneResult._id}
-                      onClick={() =>
-                        dispatch(getUserbyId(oneResult._id))(
-                          (document.querySelector(
-                            "#search-popup"
-                          ).style.display = "none")
-                        )
-                      }
-                    >
-                      {" "}
-                      <i className="bi bi-search"></i>
-                      <img
-                        src={oneResult.image}
-                        className="profile-photo-search mx-1 "
-                        alt="profile"
-                      ></img>
-                      {oneResult.name} {oneResult.surname}
-                    </li>
+                results.map(
+                  (oneResult) => (
+                    (
+
+                      <li
+                        className="py-2"
+                        key={oneResult._id}
+                        onClick={() =>
+                          dispatch(getUserbyId(oneResult._id))(
+                            (document.querySelector(
+                              "#search-popup"
+                            ).style.display = "none")
+                          )
+                        }
+                      >
+                        {" "}
+                        <i className="bi bi-search"></i>
+                        <img
+                          src={oneResult.image}
+                          className="profile-photo-search mx-1 "
+                          alt="profile"
+                        ></img>
+                        {oneResult.name} {oneResult.surname}
+                      </li>
+                    )
+
                   )
-                  // </Link>
+
                 )}
             </div>
           </Form>
@@ -339,8 +343,8 @@ const NavBar = () => {
                     focusable="false"
                     id="myBtn"
                     onClick={() =>
-                      (document.getElementById("myModal").style.display =
-                        "block")
+                    (document.getElementById("myModal").style.display =
+                      "block")
                     }
                   >
                     <path d="M8 11L3 6h10z" fillRule="evenodd"></path>
@@ -368,8 +372,8 @@ const NavBar = () => {
                   <span
                     className="close"
                     onClick={() =>
-                      (document.getElementById("myModal").style.display =
-                        "none")
+                    (document.getElementById("myModal").style.display =
+                      "none")
                     }
                   >
                     &times;
