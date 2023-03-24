@@ -9,8 +9,6 @@ import {
   Alert,
   InputGroup,
   FormControl,
-  Dropdown,
-  DropdownButton,
 } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -18,15 +16,13 @@ import {
   getPostAction,
   sendPostAsyncAction,
 } from "../redux/actions";
-import format from "date-fns/format";
+import { format, formatDistanceToNow } from "date-fns";
 import { parseISO } from "date-fns";
 import { useNavigate } from "react-router-dom";
-import { BsUpload } from "react-icons/bs";
+import { BsTrashFill, BsUpload } from "react-icons/bs";
 import LikeAndUnlike from "./LikeAndUnlike";
 import { AiOutlineSmile } from "react-icons/ai";
 import { HiOutlinePhoto } from "react-icons/hi2";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { BsThreeDots } from "react-icons/bs";
 
 const NewsFeedMiddle = () => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
@@ -58,14 +54,39 @@ const NewsFeedMiddle = () => {
   const handleClick = () => {
     inputRef.current.click();
   };
+
+  const [comment, setComment] = useState("");
+
+  const postComment = async (postId) => {
+    try {
+      const res = await fetch(
+        process.env.REACT_APP_BE_URL + `/posts/${postId}/comments`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            comment: comment,
+            user: userProfileAPIRS._id,
+          }),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      if (res.ok) {
+        setComment("");
+        dispatch(getPostAction());
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     dispatch(getPostAction());
+    console.log(postsArray);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const allPosts = useSelector((state) => state.getPosts.content);
   const postsArray = allPosts.posts;
-  console.log(postsArray);
 
   return (
     <>
@@ -193,6 +214,7 @@ const NewsFeedMiddle = () => {
                       });
                     }}
                   />
+
                   <label className="form-label" htmlFor="textAreaExample">
                     <p className="mb-5 pb-5">Post content!</p>
                   </label>
@@ -317,21 +339,26 @@ const NewsFeedMiddle = () => {
                       singlePost={singlePost}
                       i={i}
                     ></LikeAndUnlike>
-                    <Row className=" d-flex align-items-center mx-2 mt-3">
-                      <div className="col-1">
-                        <img
-                          id="profile-comment"
-                          className="comment-pro"
-                          src={userProfileAPIRS && userProfileAPIRS.image}
-                          alt="profile"
-                        ></img>
-                      </div>
-                      <div className="col">
+                    <Row className=" d-flex align-items-center mx-2 mt-2">
+                      <Col>
+                        <img src={userProfileAPIRS.image} alt="user profile" />
+                      </Col>
+                      <div
+                        className="col"
+                        style={{
+                          display: "inline-flex",
+                          paddingRight: "8rem",
+                          position: "absolute",
+                          marginLeft: "5.5rem",
+                        }}
+                      >
                         <InputGroup>
                           <FormControl
                             placeholder="Add a comment..."
                             aria-label="Add a comment..."
+                            value={comment}
                             aria-describedby="basic-addon2"
+                            onChange={(e) => setComment(e.target.value)}
                           />
                           <InputGroup.Append>
                             <Button variant="outline-secondary">
@@ -342,60 +369,77 @@ const NewsFeedMiddle = () => {
                             </Button>
                           </InputGroup.Append>
                         </InputGroup>
+                        {comment.length > 0 && (
+                          <Button
+                            variant={"primary"}
+                            onClick={() => {
+                              postComment(singlePost._id);
+                            }}
+                            style={{
+                              marginTop: 8,
+                              marginLeft: 44,
+                              fontSize: 12,
+                              paddingBlock: 2,
+                              paddingInline: 12,
+                            }}
+                          >
+                            Post
+                          </Button>
+                        )}
                       </div>
                     </Row>
                     <hr />
-                    <div className="">
-                      <div>
-                        {singlePost.comments &&
-                          singlePost.comments
-                            .slice(Math.max(postsArray.length - 3, 0))
-                            .reverse()
-                            .map((c, i) => {
-                              return (
-                                <>
-                                  <Row className="mx-3">
-                                    <div className="col-1 px-0 mt-1 d-flex justify-content-center">
-                                      <img
-                                        src={c.user.image}
-                                        alt="profile"
-                                        className="comment-pro"
-                                      ></img>
-                                    </div>
-                                    <div className="my-2 col pl-1 comment-box2">
-                                      <Row className="">
-                                        <p className="col ml-auto">
-                                          {c.user.name} {c.user.surname}
-                                        </p>
-                                        <div className="col-1 btn mr-3 align-item-center">
-                                          <DropdownButton
-                                            className="pr-3"
-                                            align="end"
-                                            title={<BsThreeDots />}
-                                          >
-                                            <Dropdown.Item>
-                                              Copy link to comment
-                                            </Dropdown.Item>
-                                            <Dropdown.Item>Edit</Dropdown.Item>
-                                            <Dropdown.Item
-                                              onClick={handleClick}
-                                            >
-                                              <RiDeleteBin6Line /> Delete
-                                            </Dropdown.Item>
-                                          </DropdownButton>
-                                        </div>
-                                      </Row>
-                                      <p className="user-title">
-                                        {c.user.title}
-                                      </p>
-                                      <p>{c.comment ? c.comment : ""}</p>
-                                    </div>
-                                  </Row>
-                                </>
-                              );
-                            })}
-                      </div>
-                    </div>
+                    <>
+                      {singlePost.comments.length > 0 &&
+                        singlePost.comments.map((c) => {
+                          return (
+                            <div key={c._id} className="comment-row d-flex">
+                              <div className="comment-profile-img">
+                                <img src={c.user?.image} alt="..." />
+                              </div>
+                              <div className="comment-body">
+                                <div className="d-flex justify-content-between">
+                                  <h4>
+                                    {c.user?.name} {c.user?.surname}
+                                  </h4>
+                                  <span>
+                                    <span className="comment-smaller">
+                                      {formatDistanceToNow(
+                                        new Date(c.updatedAt),
+                                        { addSuffix: true }
+                                      )}
+                                    </span>
+                                    {userProfileAPIRS._id === c.user?._id && (
+                                      <span
+                                        className="comment-delete"
+                                        onClick={async () => {
+                                          try {
+                                            const res = await fetch(
+                                              `${process.env.REACT_APP_BE_URL}/posts/${singlePost._id}/comments/${c._id}`,
+                                              { method: "DELETE" }
+                                            );
+                                            if (res.ok) {
+                                              dispatch(getPostAction());
+                                            }
+                                          } catch (error) {
+                                            console.log(error);
+                                          }
+                                        }}
+                                      >
+                                        <BsTrashFill
+                                          size={14}
+                                          fill="rgba(0,0,0,0.5)"
+                                        />
+                                      </span>
+                                    )}
+                                  </span>
+                                </div>
+                                <p>{c.comment}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                    </>
                   </Card>
                 </Col>
               </Row>

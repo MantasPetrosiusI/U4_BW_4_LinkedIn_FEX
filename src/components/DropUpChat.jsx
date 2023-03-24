@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   MDBCollapse,
   MDBListGroup,
@@ -9,7 +9,6 @@ import { BsThreeDots } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import { RiArrowUpSLine } from "react-icons/ri";
-import { BiSearch } from "react-icons/bi";
 import { Image } from "react-bootstrap";
 import "../styles/dropUpChat.css";
 import { useDispatch, useSelector } from "react-redux";

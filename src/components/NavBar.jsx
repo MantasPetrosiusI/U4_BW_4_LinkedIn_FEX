@@ -1,9 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProfileActionAsync, getSearchResultActionAsync, getExperienceAction, getUserProfileApi, getUserbyId, toggleShow } from "../redux/actions";
+import {
+  getAllProfileActionAsync,
+  getSearchResultActionAsync,
+  getExperienceAction,
+  getUserProfileApi,
+  getUserbyId,
+  toggleShow,
+} from "../redux/actions";
 import "../styles/navbar.css";
-import { Navbar, Nav, Form, FormControl, Container, NavDropdown, Button, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {
+  Navbar,
+  Nav,
+  Form,
+  FormControl,
+  Container,
+  NavDropdown,
+  Button,
+  Row,
+  Col,
+} from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
 
 const NavBar = () => {
   const [searchValue, getSearchValue] = useState("");
@@ -14,6 +31,8 @@ const NavBar = () => {
       document.querySelector("#search-popup").style.display = "none";
     }
   };
+  const { _id } = useParams();
+  console.log(_id);
 
   useEffect(() => {
     dispatch(getAllProfileActionAsync());
@@ -23,26 +42,28 @@ const NavBar = () => {
     };
   }, []);
 
-  const [results, setResults] = useState([])
+  const [results, setResults] = useState([]);
 
   const handleChange = (e) => {
     e.preventDefault();
-    fetchProfiles(searchValue)
+    fetchProfiles(searchValue);
     document.querySelector("#search-popup").style.display = "block";
   };
 
   const fetchProfiles = async (query) => {
     try {
-      let res = await fetch(process.env.REACT_APP_BE_URL + `/users?name=/.*${query}*/i`)
+      let res = await fetch(
+        process.env.REACT_APP_BE_URL + `/users?name=/.*${query}*/i`
+      );
       if (res.ok) {
-        let searchResults = await res.json()
-        console.log(searchResults)
-        setResults(searchResults.users)
+        let searchResults = await res.json();
+        console.log(searchResults);
+        setResults(searchResults.users);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   let modal = document.getElementById("myModal");
   window.onclick = function (event) {
@@ -68,7 +89,7 @@ const NavBar = () => {
       <Navbar className="fixed-top" id="top-nav">
         <Container>
           <Link
-            to={"/"}
+            to={"/feed"}
             onClick={window.removeEventListener("scroll", headerChange)}
           >
             <Navbar.Brand>
@@ -105,30 +126,35 @@ const NavBar = () => {
             />
             <div id="search-popup" className="position-absolute w-100">
               {results &&
-                results.map((oneResult) => (
-                  console.log(oneResult),
-                  // <Link to={"/:oneResult.id"}>
-                  <li
-                    className="py-2"
-                    key={oneResult._id}
-                    onClick={() =>
-                      dispatch(getUserbyId(oneResult._id))(
-                        (document.querySelector("#search-popup").style.display =
-                          "none")
-                      )
-                    }
-                  >
-                    {" "}
-                    <i className="bi bi-search"></i>
-                    <img
-                      src={oneResult.image}
-                      className="profile-photo-search mx-1 "
-                      alt="profile"
-                    ></img>
-                    {oneResult.name} {oneResult.surname}
-                  </li>
-                  // </Link>
-                ))}
+                results.map(
+                  (oneResult) => (
+                    console.log(oneResult),
+                    (
+                      // <Link to={"/:oneResult.id"}>
+                      <li
+                        className="py-2"
+                        key={oneResult._id}
+                        onClick={() =>
+                          dispatch(getUserbyId(oneResult._id))(
+                            (document.querySelector(
+                              "#search-popup"
+                            ).style.display = "none")
+                          )
+                        }
+                      >
+                        {" "}
+                        <i className="bi bi-search"></i>
+                        <img
+                          src={oneResult.image}
+                          className="profile-photo-search mx-1 "
+                          alt="profile"
+                        ></img>
+                        {oneResult.name} {oneResult.surname}
+                      </li>
+                    )
+                    // </Link>
+                  )
+                )}
             </div>
           </Form>
           <Nav className="ml-auto ">
@@ -245,17 +271,17 @@ const NavBar = () => {
                           </p>
                         </div>
                       </div>
-                      <div>
-                        <Button
-                          onClick={() => {
-                            dispatch(getUserProfileApi());
-                            dispatch(getExperienceAction(userProfileAPIRS._id));
-                          }}
-                          className="w-100 bg-transparent text-primary view-profile-button"
-                        >
-                          View Profile
-                        </Button>
-                      </div>
+                      <Link
+                        to={`/users/${_id}`}
+                        // onClick={() => {
+                        //   dispatch(getUserProfileApi());
+                        //   dispatch(getExperienceAction(userProfileAPIRS._id));
+                        // }}
+
+                        className="w-100 bg-transparent text-primary view-profile-button"
+                      >
+                        View Profile
+                      </Link>
                     </div>
 
                     <NavDropdown.Divider />
@@ -324,8 +350,8 @@ const NavBar = () => {
                     focusable="false"
                     id="myBtn"
                     onClick={() =>
-                    (document.getElementById("myModal").style.display =
-                      "block")
+                      (document.getElementById("myModal").style.display =
+                        "block")
                     }
                   >
                     <path d="M8 11L3 6h10z" fillRule="evenodd"></path>
@@ -353,8 +379,8 @@ const NavBar = () => {
                   <span
                     className="close"
                     onClick={() =>
-                    (document.getElementById("myModal").style.display =
-                      "none")
+                      (document.getElementById("myModal").style.display =
+                        "none")
                     }
                   >
                     &times;
