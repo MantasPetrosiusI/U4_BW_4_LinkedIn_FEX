@@ -204,3 +204,6 @@ span {
 .comment-section {
   display: none;
 }
+.comment-sectionShow {
+  display: block;
+}

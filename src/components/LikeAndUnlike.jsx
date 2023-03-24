@@ -45,6 +45,12 @@ const LikeAndUnlike = (props) => {
     toggleLikes(props.singlePost._id, userProfileAPIRS._id);
   };
 
+  const showComments = () => {
+    let comment = document.getElementById(`${props.singlePost._id}`);
+    comment.classList.remove("comment-section");
+    comment.classList.add(".comment-sectionShow");
+  };
+
   return (
     <div className="card-footer p-0">
       <Row className="justify-content-center align-items-center">
@@ -65,7 +71,7 @@ const LikeAndUnlike = (props) => {
           )}
         </Col>
         <Col className="text-center comment-box pt-2">
-          <button className="comment-box-btn">
+          <button className="comment-box-btn" onClick={showComments}>
             <TfiCommentAlt className="comment-box-btn-icon  mr-1" /> Comment
           </button>
         </Col>

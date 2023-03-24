@@ -336,7 +336,7 @@ const NewsFeedMiddle = () => {
                     <LikeAndUnlike singlePost={singlePost} i={i}>
                       {console.log(postsArray)}
                     </LikeAndUnlike>
-                    <div>
+                    <div className="comment-section" id={singlePost._id}>
                       <Row className=" d-flex align-items-center mx-2 mt-2">
                         <div className="col-1">
                           <img
