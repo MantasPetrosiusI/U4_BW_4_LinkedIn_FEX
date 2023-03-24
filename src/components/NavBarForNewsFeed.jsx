@@ -13,14 +13,13 @@ import {
   FormControl,
   Container,
   NavDropdown,
+  Button,
   Row,
   Col,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 
 const NavBarForNewsFeed = () => {
-  const { id } = useParams();
   const [searchValue, getSearchValue] = useState("");
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
   const dispatch = useDispatch();
@@ -249,16 +248,12 @@ const NavBarForNewsFeed = () => {
                         </div>
                       </div>
                       <div>
-                        <Link
-                          to={`/users/${userProfileAPIRS._id}`}
-                          // onClick={() => {
-                          //   dispatch(getUserProfileApi());
-                          //   dispatch(getExperienceAction(userProfileAPIRS._id));
-                          // }}
-                          // className="w-100 bg-transparent text-primary view-profile-button"
+                        <Button
+                          href={`/users/${userProfileAPIRS._id}`}
+                          className="w-100 bg-transparent text-primary view-profile-button"
                         >
                           View Profile
-                        </Link>
+                        </Button>
                       </div>
                     </div>
 

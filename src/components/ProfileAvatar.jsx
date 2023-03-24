@@ -18,7 +18,7 @@ const ProfileAvatar = () => {
   const [changed, setChanged] = useState(false);
 
   useEffect(() => {
-    dispatch(getUserProfileApi());
+    getUserProfileApi();
     setChanged(false);
   }, [changed]);
 

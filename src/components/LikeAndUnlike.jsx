@@ -27,7 +27,6 @@ const LikeAndUnlike = (props) => {
           }),
         }
       );
-      let data = await res.json();
       dispatch(getPostAction());
     } catch (error) {
       console.log(error);

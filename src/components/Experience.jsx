@@ -39,11 +39,11 @@ const Experience = () => {
   );
 
   useEffect(() => {
-    dispatch(getExperienceAction(userProfileAPIRS._id));
+    getExperienceAction(userProfileAPIRS._id);
     setChanged(false);
   }, [changed]);
   useEffect(() => {
-    dispatch(getExperienceAction(userProfileAPIRS._id));
+    getExperienceAction(userProfileAPIRS._id);
   }, [userProfileAPIRS]);
   //image upload to the experiences
 
