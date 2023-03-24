@@ -17,11 +17,6 @@ const ProfileAvatar = () => {
   // const [showPic, setShowPic] = useState(false);
   const [changed, setChanged] = useState(false);
 
-  useEffect(() => {
-    getUserProfileApi();
-    setChanged(false);
-  }, [changed]);
-
   const handleClosePen = () => setShow(false);
   const handleShowPen = () => setShow(true);
 
@@ -32,11 +27,6 @@ const ProfileAvatar = () => {
   const [successful, setSuccessful] = useState(false);
   const handleCloseSuccessful = () => setSuccessful(false);
   const handleShowSuccessful = () => setSuccessful(true);
-
-  const combinedFunction = () => {
-    dispatch(putUserProfileApi());
-    handleClosePen();
-  };
 
   //Image Upload
   const [file, setFile] = useState();
@@ -64,6 +54,7 @@ const ProfileAvatar = () => {
       .then((response) => response.json())
       .then((result) => {
         console.log("You've uploaded your profile pic!", result);
+        dispatch(getUserProfileApi(userId))
         setChanged(true);
       })
       .catch((error) => {
@@ -71,6 +62,8 @@ const ProfileAvatar = () => {
         setChanged(true);
       });
   }
+
+  console.log(userProfileAPIRS)
 
   return (
     <Row
@@ -187,8 +180,10 @@ const ProfileAvatar = () => {
             <Button
               variant="primary"
               onClick={() => {
-                combinedFunction();
+                dispatch(putUserProfileApi(userProfileAPIRS._id))
+                handleClosePen();
                 handleShowSuccessful();
+                setChanged(true);
               }}
             >
               Save Changes

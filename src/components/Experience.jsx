@@ -13,7 +13,7 @@ import {
   postUserExperience,
   deleteSpecificExperienceAction,
 } from "../redux/actions";
-import { getExperienceAction } from "../redux/actions";
+import { getExperienceAction, getUserProfileApi } from "../redux/actions";
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { FiSend } from "react-icons/fi";
 import { BsUpload } from "react-icons/bs";
@@ -42,10 +42,6 @@ const Experience = () => {
     getExperienceAction(userProfileAPIRS._id);
     setChanged(false);
   }, [changed]);
-  useEffect(() => {
-    getExperienceAction(userProfileAPIRS._id);
-  }, [userProfileAPIRS]);
-  //image upload to the experiences
 
   const [file, setFile] = useState();
 
@@ -77,7 +73,10 @@ const Experience = () => {
         console.error("Problem uploading the image :(", error);
         setChanged(true);
       });
+    dispatch(getUserProfileApi(userId))
   }
+
+  console.log(changed)
 
   return (
     <Row
@@ -167,13 +166,8 @@ const Experience = () => {
                 <p
                   className="mb-0"
                   onClick={() => {
-                    dispatch(
-                      deleteSpecificExperienceAction(
-                        userProfileAPIRS._id,
-                        data._id
-                      )
-                    );
-                    setChanged(true);
+                    dispatch(deleteSpecificExperienceAction(userProfileAPIRS._id, data._id));
+                    setChanged(true)
                   }}
                 >
                   <RxCross2 id="analytics-icons"></RxCross2>

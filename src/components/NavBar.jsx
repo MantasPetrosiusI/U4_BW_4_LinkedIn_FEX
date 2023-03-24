@@ -123,32 +123,27 @@ const NavBar = () => {
             />
             <div id="search-popup" className="position-absolute w-100">
               {results &&
-                results.map(
-                  (oneResult) => (
-                    // <Link to={"/:oneResult.id"}>
-                    <li
-                      className="py-2"
-                      key={oneResult._id}
-                      onClick={() =>
-                        dispatch(getUserbyId(oneResult._id))(
-                          (document.querySelector(
-                            "#search-popup"
-                          ).style.display = "none")
-                        )
-                      }
-                    >
-                      {" "}
-                      <i className="bi bi-search"></i>
-                      <img
-                        src={oneResult.image}
-                        className="profile-photo-search mx-1 "
-                        alt="profile"
-                      ></img>
-                      {oneResult.name} {oneResult.surname}
-                    </li>
-                  )
-                  // </Link>
-                )}
+                results.map((oneResult) => (
+                  <li
+                    className="py-2"
+                    key={oneResult._id}
+                    onClick={() =>
+                      dispatch(getUserbyId(oneResult._id))(
+                        (document.querySelector("#search-popup").style.display =
+                          "none")
+                      )
+                    }
+                  >
+                    {" "}
+                    <i className="bi bi-search"></i>
+                    <img
+                      src={oneResult.image}
+                      className="profile-photo-search mx-1 "
+                      alt="profile"
+                    ></img>
+                    {oneResult.name} {oneResult.surname}
+                  </li>
+                ))}
             </div>
           </Form>
           <Nav className="ml-auto ">
