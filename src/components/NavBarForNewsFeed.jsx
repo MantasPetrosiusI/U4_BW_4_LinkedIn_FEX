@@ -4,7 +4,6 @@ import { getUserbyId, toggleShow } from "../redux/actions";
 import {
   getAllProfileActionAsync,
   getSearchResultActionAsync,
-  getExperienceAction,
 } from "../redux/actions";
 import "../styles/navbar.css";
 import {
@@ -14,14 +13,14 @@ import {
   FormControl,
   Container,
   NavDropdown,
-  Button,
   Row,
   Col,
 } from "react-bootstrap";
-import { getUserProfileApi } from "../redux/actions";
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const NavBarForNewsFeed = () => {
+  const { id } = useParams();
   const [searchValue, getSearchValue] = useState("");
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
   const dispatch = useDispatch();
@@ -73,7 +72,7 @@ const NavBarForNewsFeed = () => {
     <div className="d-flex flex-column">
       <Navbar className="fixed-top" id="top-nav">
         <Container>
-          <Link to={"/"}>
+          <Link to={"/feed"}>
             <Navbar.Brand>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -250,15 +249,16 @@ const NavBarForNewsFeed = () => {
                         </div>
                       </div>
                       <div>
-                        <Button
-                          onClick={() => {
-                            dispatch(getUserProfileApi());
-                            dispatch(getExperienceAction(userProfileAPIRS._id));
-                          }}
-                          className="w-100 bg-transparent text-primary view-profile-button"
+                        <Link
+                          to={`/users/${userProfileAPIRS._id}`}
+                          // onClick={() => {
+                          //   dispatch(getUserProfileApi());
+                          //   dispatch(getExperienceAction(userProfileAPIRS._id));
+                          // }}
+                          // className="w-100 bg-transparent text-primary view-profile-button"
                         >
                           View Profile
-                        </Button>
+                        </Link>
                       </div>
                     </div>
 

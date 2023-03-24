@@ -271,17 +271,12 @@ const NavBar = () => {
                           </p>
                         </div>
                       </div>
-                      <Link
-                        to={`/users/${_id}`}
-                        // onClick={() => {
-                        //   dispatch(getUserProfileApi());
-                        //   dispatch(getExperienceAction(userProfileAPIRS._id));
-                        // }}
-
+                      <Button
+                        href={`/users/${userProfileAPIRS._id}`}
                         className="w-100 bg-transparent text-primary view-profile-button"
                       >
                         View Profile
-                      </Link>
+                      </Button>
                     </div>
 
                     <NavDropdown.Divider />

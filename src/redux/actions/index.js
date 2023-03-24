@@ -188,6 +188,7 @@ export const getAllProfileActionAsync = () => {
       const response = await fetch(process.env.REACT_APP_BE_URL + `/users`);
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         dispatch({
           type: GET_ALL_PROFILE,
           payload: data,
