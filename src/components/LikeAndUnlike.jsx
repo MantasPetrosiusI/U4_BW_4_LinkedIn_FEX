@@ -9,8 +9,10 @@ import { getPostAction } from "../redux/actions";
 
 const LikeAndUnlike = (props) => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
+  const dispatch = useDispatch();
 
   const toggleLikes = async (postID, userID) => {
+    console.log(postID, userID);
     const likeBody = {
       userID: userID,
     };
@@ -31,30 +33,33 @@ const LikeAndUnlike = (props) => {
       console.log(error);
     }
   };
-  const dispatch = useDispatch();
+
+  const isLikedByUser = props.singlePost.likes.some(
+    (like) => like.toString() === userProfileAPIRS._id.toString()
+  );
+  console.log(isLikedByUser);
+
+  const handleLikeClick = () => {
+    toggleLikes(props.singlePost._id, userProfileAPIRS._id);
+  };
+
+  const handleUnlikeClick = () => {
+    toggleLikes(props.singlePost._id, userProfileAPIRS._id);
+  };
 
   return (
     <div className="card-footer p-0">
       <Row className="justify-content-center align-items-center">
         <Col className="text-center comment-box pt-2">
-          {props.singlePost.likes.some(
-            (e) => e._id === userProfileAPIRS._id
-          ) ? (
-            <button
-              className="comment-box-btn ml-3"
-              onClick={() => {
-                toggleLikes(props.singlePost._id, userProfileAPIRS._id);
-              }}
-            >
+          {isLikedByUser ? (
+            <button className="comment-box-btn ml-3" onClick={handleLikeClick}>
               <AiTwotoneLike className="comment-box-btn-icon  mr-1" />
               Unlike
             </button>
           ) : (
             <button
               className="comment-box-btn ml-3"
-              onClick={() => {
-                toggleLikes(props.singlePost._id, userProfileAPIRS._id);
-              }}
+              onClick={handleUnlikeClick}
             >
               <AiOutlineLike className="comment-box-btn-icon  mr-1" />
               Like
@@ -80,5 +85,4 @@ const LikeAndUnlike = (props) => {
     </div>
   );
 };
-
 export default LikeAndUnlike;
