@@ -37,7 +37,6 @@ const LikeAndUnlike = (props) => {
   const isLikedByUser = props.singlePost.likes.some(
     (like) => like.toString() === userProfileAPIRS._id.toString()
   );
-  console.log(isLikedByUser);
 
   const handleLikeClick = () => {
     toggleLikes(props.singlePost._id, userProfileAPIRS._id);

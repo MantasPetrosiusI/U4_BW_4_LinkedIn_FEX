@@ -18,8 +18,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import { getUserProfileApi } from "../redux/actions";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const NavBar = () => {
   const [searchValue, getSearchValue] = useState("");
@@ -30,6 +29,8 @@ const NavBar = () => {
       document.querySelector("#search-popup").style.display = "none";
     }
   };
+  const { _id } = useParams();
+  console.log(_id);
 
   useEffect(() => {
     dispatch(getAllProfileActionAsync());
@@ -87,7 +88,7 @@ const NavBar = () => {
       <Navbar className="fixed-top" id="top-nav">
         <Container>
           <Link
-            to={"/"}
+            to={"/feed"}
             onClick={window.removeEventListener("scroll", headerChange)}
           >
             <Navbar.Brand>
@@ -263,17 +264,17 @@ const NavBar = () => {
                           </p>
                         </div>
                       </div>
-                      <div>
-                        <Button
-                          onClick={() => {
-                            dispatch(getUserProfileApi());
-                            dispatch(getExperienceAction(userProfileAPIRS._id));
-                          }}
-                          className="w-100 bg-transparent text-primary view-profile-button"
-                        >
-                          View Profile
-                        </Button>
-                      </div>
+                      <Link
+                        to={`/users/${_id}`}
+                        // onClick={() => {
+                        //   dispatch(getUserProfileApi());
+                        //   dispatch(getExperienceAction(userProfileAPIRS._id));
+                        // }}
+
+                        className="w-100 bg-transparent text-primary view-profile-button"
+                      >
+                        View Profile
+                      </Link>
                     </div>
 
                     <NavDropdown.Divider />
@@ -342,8 +343,8 @@ const NavBar = () => {
                     focusable="false"
                     id="myBtn"
                     onClick={() =>
-                    (document.getElementById("myModal").style.display =
-                      "block")
+                      (document.getElementById("myModal").style.display =
+                        "block")
                     }
                   >
                     <path d="M8 11L3 6h10z" fillRule="evenodd"></path>
@@ -371,8 +372,8 @@ const NavBar = () => {
                   <span
                     className="close"
                     onClick={() =>
-                    (document.getElementById("myModal").style.display =
-                      "none")
+                      (document.getElementById("myModal").style.display =
+                        "none")
                     }
                   >
                     &times;

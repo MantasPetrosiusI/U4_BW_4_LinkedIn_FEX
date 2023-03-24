@@ -335,9 +335,10 @@ const NewsFeedMiddle = () => {
                         </Button>
                       </div>
                     </div>
-                    <LikeAndUnlike singlePost={singlePost} i={i}>
-                      {console.log(postsArray)}
-                    </LikeAndUnlike>
+                    <LikeAndUnlike
+                      singlePost={singlePost}
+                      i={i}
+                    ></LikeAndUnlike>
                     <Row className=" d-flex align-items-center mx-2 mt-2">
                       <Col>
                         <img src={userProfileAPIRS.image} alt="user profile" />
