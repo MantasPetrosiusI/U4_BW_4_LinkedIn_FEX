@@ -1,24 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserbyId, toggleShow } from "../redux/actions";
-import {
-  getAllProfileActionAsync,
-  getSearchResultActionAsync,
-  getExperienceAction,
-} from "../redux/actions";
+import { getAllProfileActionAsync, getSearchResultActionAsync, getExperienceAction, getUserProfileApi, getUserbyId, toggleShow } from "../redux/actions";
 import "../styles/navbar.css";
-import {
-  Navbar,
-  Nav,
-  Form,
-  FormControl,
-  Container,
-  NavDropdown,
-  Button,
-  Row,
-  Col,
-} from "react-bootstrap";
-import { getUserProfileApi } from "../redux/actions";
+import { Navbar, Nav, Form, FormControl, Container, NavDropdown, Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const NavBar = () => {
@@ -37,20 +21,28 @@ const NavBar = () => {
     return () => {
       window.removeEventListener("scroll", headerChange);
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  let allProfiles = useSelector((state) => state.profile.content);
-  let searchArray = useSelector((state) => state.search.content[0]);
+  const [results, setResults] = useState([])
 
   const handleChange = (e) => {
     e.preventDefault();
-    console.log(allProfiles[0]);
-    // handleShowModal();
-    dispatch(getSearchResultActionAsync(allProfiles[0], searchValue));
+    fetchProfiles(searchValue)
     document.querySelector("#search-popup").style.display = "block";
   };
+
+  const fetchProfiles = async (query) => {
+    try {
+      let res = await fetch(process.env.REACT_APP_BE_URL + `/users?name=/.*${query}*/i`)
+      if (res.ok) {
+        let searchResults = await res.json()
+        console.log(searchResults)
+        setResults(searchResults.users)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   let modal = document.getElementById("myModal");
   window.onclick = function (event) {
@@ -70,17 +62,6 @@ const NavBar = () => {
   const handleToggleShow = () => {
     dispatch(toggleShow());
   };
-  // search function
-  //   const specificProfile = useSelector((state) => state.profileSearch.content);
-  //   const [query, setQuery] = useState("");
-  // const handleChange = (e) => {
-  //   setQuery(e.target.value);
-  // };
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     dispatch(getSpecificProfileAction(query));
-  //     dispatch(getExperienceAction(query));
-  //   };
 
   return (
     <div className="d-flex flex-column">
@@ -123,8 +104,9 @@ const NavBar = () => {
               onChange={(e) => getSearchValue(e.target.value)}
             />
             <div id="search-popup" className="position-absolute w-100">
-              {searchArray &&
-                searchArray.map((oneResult) => (
+              {results &&
+                results.map((oneResult) => (
+                  console.log(oneResult),
                   // <Link to={"/:oneResult.id"}>
                   <li
                     className="py-2"
