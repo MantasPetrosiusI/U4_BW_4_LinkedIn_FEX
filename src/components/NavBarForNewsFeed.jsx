@@ -71,7 +71,7 @@ const NavBarForNewsFeed = () => {
     <div className="d-flex flex-column">
       <Navbar className="fixed-top" id="top-nav">
         <Container>
-          <Link to={"/feed"}>
+          <Link to={"/"}>
             <Navbar.Brand>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@ const NavBarForNewsFeed = () => {
             </div>
           </Form>
           <Nav className="ml-auto ">
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -147,7 +147,7 @@ const NavBarForNewsFeed = () => {
               </svg>
               <p className="text-gone">Home</p>
             </Link>
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -162,7 +162,7 @@ const NavBarForNewsFeed = () => {
               </svg>{" "}
               <p className="text-gone">My Network</p>
             </Link>
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -192,10 +192,7 @@ const NavBarForNewsFeed = () => {
               </svg>
               <p className="text-gone">Messaging</p>
             </Nav.Link>
-            <Link
-              to={"/feed"}
-              className="text-center nav-link position-relative"
-            >
+            <Link to={"/"} className="text-center nav-link position-relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

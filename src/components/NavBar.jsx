@@ -81,13 +81,12 @@ const NavBar = () => {
     dispatch(toggleShow());
   };
 
-
   return (
     <div className="d-flex flex-column">
       <Navbar className="fixed-top" id="top-nav">
         <Container>
           <Link
-            to={"/feed"}
+            to={"/"}
             onClick={window.removeEventListener("scroll", headerChange)}
           >
             <Navbar.Brand>
@@ -124,39 +123,31 @@ const NavBar = () => {
             />
             <div id="search-popup" className="position-absolute w-100">
               {results &&
-                results.map(
-                  (oneResult) => (
-                    (
-
-                      <li
-                        className="py-2"
-                        key={oneResult._id}
-                        onClick={() =>
-                          dispatch(getUserbyId(oneResult._id))(
-                            (document.querySelector(
-                              "#search-popup"
-                            ).style.display = "none")
-                          )
-                        }
-                      >
-                        {" "}
-                        <i className="bi bi-search"></i>
-                        <img
-                          src={oneResult.image}
-                          className="profile-photo-search mx-1 "
-                          alt="profile"
-                        ></img>
-                        {oneResult.name} {oneResult.surname}
-                      </li>
-                    )
-
-                  )
-
-                )}
+                results.map((oneResult) => (
+                  <li
+                    className="py-2"
+                    key={oneResult._id}
+                    onClick={() =>
+                      dispatch(getUserbyId(oneResult._id))(
+                        (document.querySelector("#search-popup").style.display =
+                          "none")
+                      )
+                    }
+                  >
+                    {" "}
+                    <i className="bi bi-search"></i>
+                    <img
+                      src={oneResult.image}
+                      className="profile-photo-search mx-1 "
+                      alt="profile"
+                    ></img>
+                    {oneResult.name} {oneResult.surname}
+                  </li>
+                ))}
             </div>
           </Form>
           <Nav className="ml-auto ">
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -171,7 +162,7 @@ const NavBar = () => {
               </svg>
               <p className="text-gone">Home</p>
             </Link>
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -186,7 +177,7 @@ const NavBar = () => {
               </svg>{" "}
               <p className="text-gone">My Network</p>
             </Link>
-            <Link to={"/feed"} className="text-center nav-link">
+            <Link to={"/"} className="text-center nav-link">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -216,10 +207,7 @@ const NavBar = () => {
               </svg>
               <p className="text-gone">Messaging</p>
             </Nav.Link>
-            <Link
-              to={"/feed"}
-              className="text-center nav-link position-relative"
-            >
+            <Link to={"/"} className="text-center nav-link position-relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -343,8 +331,8 @@ const NavBar = () => {
                     focusable="false"
                     id="myBtn"
                     onClick={() =>
-                    (document.getElementById("myModal").style.display =
-                      "block")
+                      (document.getElementById("myModal").style.display =
+                        "block")
                     }
                   >
                     <path d="M8 11L3 6h10z" fillRule="evenodd"></path>
@@ -372,8 +360,8 @@ const NavBar = () => {
                   <span
                     className="close"
                     onClick={() =>
-                    (document.getElementById("myModal").style.display =
-                      "none")
+                      (document.getElementById("myModal").style.display =
+                        "none")
                     }
                   >
                     &times;

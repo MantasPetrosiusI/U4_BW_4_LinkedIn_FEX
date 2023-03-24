@@ -132,7 +132,7 @@ const Experience = () => {
                     onClick={handleClick}
                   ></MdOutlineAddAPhoto>
                 </p>
-                <Link to="/">
+                <Link>
                   <p className="mb-0 text-dark">
                     <FiSend
                       id="analytics-icons"
