@@ -286,15 +286,13 @@ const NewsFeedMiddle = () => {
                           className="profile-middle m-2"
                         ></img>
                         <div>
-                          <p>
-                            <strong>
-                              {singlePost.user.name} {singlePost.user.surname}
-                            </strong>
+                          <p className="comment-name">
+                            {singlePost.user.name} {singlePost.user.surname}
                           </p>
-                          <p>
-                            <em>{singlePost.user.title}</em>
+                          <p className="comment-title">
+                            {singlePost.user.title}
                           </p>
-                          <p>
+                          <p className="comment-time">
                             Date Posted:{" "}
                             {format(
                               parseISO(singlePost.createdAt),
@@ -335,111 +333,114 @@ const NewsFeedMiddle = () => {
                         </Button>
                       </div>
                     </div>
-                    <LikeAndUnlike
-                      singlePost={singlePost}
-                      i={i}
-                    ></LikeAndUnlike>
-                    <Row className=" d-flex align-items-center mx-2 mt-2">
-                      <Col>
-                        <img src={userProfileAPIRS.image} alt="user profile" />
-                      </Col>
-                      <div
-                        className="col"
-                        style={{
-                          display: "inline-flex",
-                          paddingRight: "8rem",
-                          position: "absolute",
-                          marginLeft: "5.5rem",
-                        }}
-                      >
-                        <InputGroup>
-                          <FormControl
-                            placeholder="Add a comment..."
-                            aria-label="Add a comment..."
-                            value={comment}
-                            aria-describedby="basic-addon2"
-                            onChange={(e) => setComment(e.target.value)}
+                    <LikeAndUnlike singlePost={singlePost} i={i}>
+                      {console.log(postsArray)}
+                    </LikeAndUnlike>
+                    <div>
+                      <Row className=" d-flex align-items-center mx-2 mt-2">
+                        <div className="col-1">
+                          <img
+                            src={userProfileAPIRS.image}
+                            alt="user profile"
+                            className="comment-profile-img"
                           />
-                          <InputGroup.Append>
-                            <Button variant="outline-secondary">
-                              <AiOutlineSmile />
+                        </div>
+                        <div className="col">
+                          <InputGroup>
+                            <FormControl
+                              placeholder="Add a comment..."
+                              aria-label="Add a comment..."
+                              value={comment}
+                              aria-describedby="basic-addon2"
+                              onChange={(e) => setComment(e.target.value)}
+                            />
+                            <InputGroup.Append>
+                              <Button variant="outline-secondary">
+                                <AiOutlineSmile />
+                              </Button>
+                              <Button variant="outline-secondary">
+                                <HiOutlinePhoto />
+                              </Button>
+                            </InputGroup.Append>
+                          </InputGroup>
+                          {comment.length > 0 && (
+                            <Button
+                              variant={"primary"}
+                              onClick={() => {
+                                postComment(singlePost._id);
+                              }}
+                              style={{
+                                marginTop: 8,
+                                marginLeft: 44,
+                                fontSize: 12,
+                                paddingBlock: 2,
+                                paddingInline: 12,
+                              }}
+                            >
+                              Post
                             </Button>
-                            <Button variant="outline-secondary">
-                              <HiOutlinePhoto />
-                            </Button>
-                          </InputGroup.Append>
-                        </InputGroup>
-                        {comment.length > 0 && (
-                          <Button
-                            variant={"primary"}
-                            onClick={() => {
-                              postComment(singlePost._id);
-                            }}
-                            style={{
-                              marginTop: 8,
-                              marginLeft: 44,
-                              fontSize: 12,
-                              paddingBlock: 2,
-                              paddingInline: 12,
-                            }}
-                          >
-                            Post
-                          </Button>
-                        )}
-                      </div>
-                    </Row>
-                    <hr />
-                    <>
-                      {singlePost.comments.length > 0 &&
-                        singlePost.comments.map((c) => {
-                          return (
-                            <div key={c._id} className="comment-row d-flex">
-                              <div className="comment-profile-img">
-                                <img src={c.user?.image} alt="..." />
-                              </div>
-                              <div className="comment-body">
-                                <div className="d-flex justify-content-between">
-                                  <h4>
-                                    {c.user?.name} {c.user?.surname}
-                                  </h4>
-                                  <span>
-                                    <span className="comment-smaller">
-                                      {formatDistanceToNow(
-                                        new Date(c.updatedAt),
-                                        { addSuffix: true }
+                          )}
+                        </div>
+                      </Row>
+                      <hr />
+                      <>
+                        {singlePost.comments.length > 0 &&
+                          singlePost.comments.map((c) => {
+                            return (
+                              <div key={c._id} className="comment-row d-flex">
+                                <div className="col-1 ml-1 comment-profile-img">
+                                  <img src={c.user?.image} alt="..." />
+                                </div>
+                                <div className="col ml-1 comment-body my-1 mx-2">
+                                  <div className="d-flex justify-content-between mt-2">
+                                    <p className="comment-name">
+                                      {c.user?.name} {c.user?.surname}
+                                    </p>
+                                    <span>
+                                      <span className="comment-time mr-3">
+                                        {formatDistanceToNow(
+                                          new Date(c.updatedAt),
+                                          { addSuffix: true }
+                                        )}
+                                      </span>
+                                      {userProfileAPIRS._id === c.user?._id && (
+                                        <span
+                                          className="comment-delete"
+                                          onClick={async () => {
+                                            try {
+                                              const res = await fetch(
+                                                `${process.env.REACT_APP_BE_URL}/posts/${singlePost._id}/comments/${c._id}`,
+                                                { method: "DELETE" }
+                                              );
+                                              if (res.ok) {
+                                                dispatch(getPostAction());
+                                              }
+                                            } catch (error) {
+                                              console.log(error);
+                                            }
+                                          }}
+                                        >
+                                          <BsTrashFill
+                                            size={14}
+                                            fill="rgba(0,0,0,0.5)"
+                                            className="bin"
+                                          />
+                                        </span>
                                       )}
                                     </span>
-                                    {userProfileAPIRS._id === c.user?._id && (
-                                      <span
-                                        className="comment-delete"
-                                        onClick={async () => {
-                                          try {
-                                            const res = await fetch(
-                                              `${process.env.REACT_APP_BE_URL}/posts/${singlePost._id}/comments/${c._id}`,
-                                              { method: "DELETE" }
-                                            );
-                                            if (res.ok) {
-                                              dispatch(getPostAction());
-                                            }
-                                          } catch (error) {
-                                            console.log(error);
-                                          }
-                                        }}
-                                      >
-                                        <BsTrashFill
-                                          size={14}
-                                          fill="rgba(0,0,0,0.5)"
-                                        />
-                                      </span>
-                                    )}
-                                  </span>
+                                  </div>
+                                  <p className="comment-title mb-1">
+                                    {c.user?.title}
+                                  </p>
+                                  <p className="comment-text mb-2">
+                                    {c.comment}
+                                  </p>
                                 </div>
-                                <p>{c.comment}</p>
                               </div>
-                            </div>
-                          );
-                        })}
-                    </>
+                            );
+                          })}
+                      </>
+                    </div>
                   </Card>
                 </Col>
               </Row>
