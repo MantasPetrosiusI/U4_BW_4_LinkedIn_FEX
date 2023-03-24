@@ -24,7 +24,7 @@ export const UNLIKE = "UNLIKE";
 export const TOGGLE_SHOW = "TOGGLE_SHOW";
 
 //PROFILE
-export const getUserProfileApi = (userId) => {
+export const getUserProfileApi = (userId = '6418663bed18214ac7e041e4') => {
   return async (dispatch, getState) => {
     const baseEndpoint =
       process.env.REACT_APP_BE_URL + `/users/${userId}`;
@@ -406,7 +406,7 @@ export const putUserExperience = (userId, expId) => {
 };
 
 //POSTS
-export const sendPostAsyncAction = (editedData, file) => {
+export const sendPostAsyncAction = (editedData, file, userId) => {
   return async (dispatch, getState) => {
     try {
       let res = await fetch(process.env.REACT_APP_BE_URL + `/posts`, {
@@ -423,6 +423,7 @@ export const sendPostAsyncAction = (editedData, file) => {
           payload: data.id,
         });
         dispatch(handleUploadAction(data._id, file));
+        dispatch(getUserProfileApi(userId))
       }
     } catch (error) {
       console.log(error);

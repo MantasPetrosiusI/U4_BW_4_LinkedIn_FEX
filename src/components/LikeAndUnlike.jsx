@@ -5,10 +5,12 @@ import { RxLoop } from "react-icons/rx";
 import { IoIosSend } from "react-icons/io";
 import { AiTwotoneLike } from "react-icons/ai";
 import { Col, Row } from "react-bootstrap";
-import { getPostAction } from "../redux/actions";
+import { getPostAction, getUserProfileApi } from "../redux/actions";
+import { useEffect } from "react";
 
 const LikeAndUnlike = (props) => {
   const userProfileAPIRS = useSelector((state) => state.userDataAPI.stock);
+  console.log(userProfileAPIRS)
   const dispatch = useDispatch();
 
   const toggleLikes = async (postID, userID) => {
@@ -33,16 +35,16 @@ const LikeAndUnlike = (props) => {
     }
   };
 
-  const isLikedByUser = props.singlePost.likes.some(
-    (like) => like.toString() === userProfileAPIRS._id.toString()
+  const isLikedByUser = props.singlePost?.likes.some(
+    (like) => like.toString() === userProfileAPIRS._id?.toString()
   );
 
   const handleLikeClick = () => {
-    toggleLikes(props.singlePost._id, userProfileAPIRS._id);
+    toggleLikes(props.singlePost?._id, userProfileAPIRS?._id);
   };
 
   const handleUnlikeClick = () => {
-    toggleLikes(props.singlePost._id, userProfileAPIRS._id);
+    toggleLikes(props.singlePost?._id, userProfileAPIRS?._id);
   };
 
   const showComments = () => {

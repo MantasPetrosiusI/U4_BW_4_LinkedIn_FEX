@@ -15,6 +15,7 @@ import {
   deletePostAction,
   getPostAction,
   sendPostAsyncAction,
+  getUserProfileApi
 } from "../redux/actions";
 import { format, formatDistanceToNow } from "date-fns";
 import { parseISO } from "date-fns";
@@ -246,7 +247,7 @@ const NewsFeedMiddle = () => {
             variant="primary"
             onClick={() => {
               dispatch(sendPostAsyncAction(post, file));
-              dispatch(getPostAction());
+              dispatch(getPostAction(userProfileAPIRS._id));
               handleClose();
               navigate("/");
               setPost({ text: "" });
