@@ -68,12 +68,12 @@ const Experience = () => {
       .then((result) => {
         console.log("You've uploaded your profile pic!", result);
         setChanged(true);
+        dispatch(getUserProfileApi(userId))
       })
       .catch((error) => {
         console.error("Problem uploading the image :(", error);
         setChanged(true);
       });
-    dispatch(getUserProfileApi(userId))
   }
 
   console.log(changed)
@@ -132,17 +132,15 @@ const Experience = () => {
                     onClick={handleClick}
                   ></MdOutlineAddAPhoto>
                 </p>
-                <Link>
-                  <p className="mb-0 text-dark">
-                    <FiSend
-                      id="analytics-icons"
-                      onClick={() => {
-                        handleUpload(userProfileAPIRS._id, data._id);
-                        handleShowSuccessful();
-                      }}
-                    ></FiSend>
-                  </p>
-                </Link>
+                <p className="mb-0 text-dark">
+                  <FiSend
+                    id="analytics-icons"
+                    onClick={() => {
+                      handleUpload(userProfileAPIRS._id, data._id);
+                      handleShowSuccessful();
+                    }}
+                  ></FiSend>
+                </p>
                 <form
                   className="d-flex justify-content-around align-items-center"
                   p
@@ -176,7 +174,7 @@ const Experience = () => {
             </Col>
           </Row>
         ))}
-        <Row>
+        <Row className="ml-1 justify-content-center">
           <Button
             href={`${process.env.REACT_APP_BE_URL}/users/${userProfileAPIRS._id}/experiences/CSV
            `}
